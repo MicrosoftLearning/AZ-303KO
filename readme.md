@@ -1,6 +1,6 @@
 ﻿# AZ-303: Microsoft Azure 아키텍트 기술 변경 로그
 
-- **[LABS에 대한 링크(HTML 형식)](https://microsoftlearning.github.io/AZ-303-Microsoft-Azure-Architect-Technologies/)**
+- **[랩에 대한 링크(HTML 형식)](https://microsoftlearning.github.io/AZ-303-Microsoft-Azure-Architect-Technologies/)**
 - **[최신 학생용 핸드북 및 AllFiles 콘텐츠 다운로드](https://github.com/MicrosoftLearning/AZ-303-Microsoft-Azure-Architect-Technologies/archive/master.zip)**
 - **MCT입니까?** - [MCT용 GitHub 사용자 가이드](https://microsoftlearning.github.io/MCT-User-Guide-KO/)를 검토하십시오.
 - **랩 명령을 수동으로 빌드해야 합니까?** - [MicrosoftLearning/Docker-Build](https://github.com/MicrosoftLearning/Docker-Build) 리포지토리에서 명령을 사용할 수 있습니다.
@@ -15,13 +15,13 @@
 
 - 강사 핸드북과 PowerPoint는 여전히 과정 콘텐츠를 가르치는 기본적인 자료로 사용될 것입니다.
 
-- GitHub의 이러한 파일은 수강생 핸드북과 함께 사용할 수 있도록 설계되었지만 중앙 리포지토리 역할을 하는 GitHub에 위치합니다. 따라서 MCT와 과정 작성자가 최신 랩 파일에 대한 소스를 공유할 수 있습니다.
+- GitHub의 이러한 파일은 학생 핸드북과 함께 사용할 수 있도록 설계되었지만 중앙 리포지토리 역할을 하는 GitHub에 위치합니다. 따라서 MCT와 과정 작성자가 최신 랩 파일에 대한 소스를 공유할 수 있습니다.
 
-- 트레이너는 각 강의를 제공할 때마다 GitHub에서 최신 Azure 서비스를 지원하기 위해 변경된 내용을 확인하고 최신 파일을 가져와서 강의에 사용하는 것이 좋습니다.
+- 강사는 각 강의를 제공할 때마다 GitHub에서 최신 Azure 서비스를 지원하기 위해 변경된 내용을 확인하고 최신 파일을 가져와서 강의에 사용하는 것이 좋습니다.
 
-## 수강생 핸드북의 변경 사항은 어떻게 됩니까?
+## 학생 핸드북의 변경 사항은 어떻게 됩니까?
 
-- 수강생 핸드북은 분기별로 검토되며 필요에 따라 일반 MOC 릴리스 채널을 통해 업데이트됩니다.
+- 학생 핸드북은 분기별로 검토되며 필요에 따라 일반 MOC 릴리스 채널을 통해 업데이트됩니다.
 
 ## 기고하려면 어떻게 해야 합니까?
 
