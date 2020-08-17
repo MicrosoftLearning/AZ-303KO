@@ -1,6 +1,6 @@
 ﻿# AZ-303: Microsoft Azure 아키텍트 기술 변경 로그
 
-- **[랩에 대한 링크(HTML 형식)](https://microsoftlearning.github.io/AZ-303-Microsoft-Azure-Architect-Technologies/)**
+- **[랩에 대한 링크(HTML 형식)](https://microsoftlearning.github.io/AZ-303KO-Microsoft-Azure-Architect-Technologies/)**
 - **[최신 학생용 핸드북 및 AllFiles 콘텐츠 다운로드](https://github.com/MicrosoftLearning/AZ-303-Microsoft-Azure-Architect-Technologies/archive/master.zip)**
 - **MCT입니까?** - [MCT용 GitHub 사용자 가이드](https://microsoftlearning.github.io/MCT-User-Guide-KO/)를 검토하십시오.
 - **랩 명령을 수동으로 빌드해야 합니까?** - [MicrosoftLearning/Docker-Build](https://github.com/MicrosoftLearning/Docker-Build) 리포지토리에서 명령을 사용할 수 있습니다.

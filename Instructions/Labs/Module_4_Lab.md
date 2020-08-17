@@ -1,4 +1,4 @@
----
+﻿---
 lab:
     title: '4: 가용성이 높은 Azure IaaS 컴퓨팅 아키텍처 구현'
     module: '모듈 4: 부하 분산 및 네트워크 보안 구현'
@@ -192,7 +192,7 @@ Windows 서버 관리자 자격 증명
 
 1. Azure Portal의 Cloud Shell 창에서 **Bash** 세션을 시작합니다. 
 
-1. Cloud Shell 창에서 다음을 실행하여 Azure Load Balancer의 백 엔드 풀에서 Azure VM에 대한 HTTP 트래픽의 부하 분산을 테스트합니다(여기서, '<lb_IP_address>' 자리 표시자를 이전에 식별한 부하 분산 장치 프런트 엔드의 IP 주소로 대체함).
+1. Cloud Shell 창에서 다음을 실행하여 Azure Load Balancer의 백 엔드 풀에서 Azure VM에 대한 HTTP 트래픽의 부하 분산을 테스트합니다(여기서, `<lb_IP_address>` 자리 표시자를 이전에 식별한 부하 분산 장치 프런트 엔드의 IP 주소로 대체함).
 
    ```sh
    for i in {1..4}; do curl <lb_IP_address>; done
@@ -200,7 +200,7 @@ Windows 서버 관리자 자격 증명
 
     > **참고**: 반환된 메시지가 백 엔드 Azure VM에 라운드 로빈 방식으로 요청이 전달되고 있음을 나타내는지 확인합니다.
 
-1. **az30301a-lb** 블레이드에서 **부하 분산 규칙** 항목을 선택하고 **az30301a-lb \**에서**| 부하 분산 규칙** 블레이드에서 HTTP 트래픽을 처리하는 부하 분산 규칙을 나타내는 **az303001a-lbruletcp80** 항목을 선택합니다. 
+1. **az30301a-lb** 블레이드에서 **부하 분산 규칙** 항목을 선택하고 **az30301a-lb | 부하 분산 규칙** 블레이드에서HTTP 트래픽을 처리하는 부하 분산 규칙을 나타내는 **az303001a-lbruletcp80** 항목을 선택합니다. 
 
 1. **az303001a-lbruletcp80** 블레이드의 **세션 지속성** 드롭다운 목록에서 **클라이언트 IP**를 선택한 다음 **저장**을 선택합니다.
 
@@ -271,7 +271,7 @@ Windows 서버 관리자 자격 증명
 
 1. Cloud Shell 창의 도구 모음에서 **파일 업로드/다운로드** 아이콘을 선택하고 드롭다운 메뉴에서 **업로드**를 선택한 다음 Cloud Shell 홈 디렉터리에 **\\\\AZ303\\AllFiles\\Labs\\01\\azuredeploy30301subb.json** 파일을 업로드합니다.
 
-1. Cloud Shell 창에서 다음을 실행하여 리소스 그룹을 만듭니다('<Azure region>' 자리 표시자는 구독에서 사용할 수 있으며 랩 컴퓨터 위치와 가장 가까운 Azure 지역의 이름으로 바꿉니다).
+1. Cloud Shell 창에서 다음을 실행하여 리소스 그룹을 만듭니다(`<Azure region>` 자리 표시자는 구독에서 사용할 수 있으며 랩 컴퓨터 위치와 가장 가까운 Azure 지역의 이름으로 바꿉니다).
 
    ```sh
    LOCATION='<Azure region>'
@@ -364,7 +364,7 @@ Windows 서버 관리자 자격 증명
 
 1. Azure Portal의 Cloud Shell 창에서 새 **Bash** 세션을 시작합니다. 
 
-1. Cloud Shell 창에서 다음을 실행하여 Azure Load Balancer의 백 엔드 풀에서 Azure VM에 대한 HTTP 트래픽의 부하 분산을 테스트합니다(여기서, '<lb_IP_address>' 자리 표시자를 이전에 식별한 부하 분산 장치 프런트 엔드의 IP 주소로 대체함).
+1. Cloud Shell 창에서 다음을 실행하여 Azure Load Balancer의 백 엔드 풀에서 Azure VM에 대한 HTTP 트래픽의 부하 분산을 테스트합니다(여기서, `<lb_IP_address>` 자리 표시자를 이전에 식별한 부하 분산 장치 프런트 엔드의 IP 주소로 대체함).
 
    ```sh
    for i in {1..4}; do curl <lb_IP_address>; done
@@ -478,7 +478,7 @@ Windows 서버 관리자 자격 증명
 
 1. Cloud Shell 창의 도구 모음에서 **파일 업로드/다운로드** 아이콘을 선택하고 드롭다운 메뉴에서 **업로드**를 선택한 다음 Cloud Shell 홈 디렉터리에 **\\\\AZ303\\AllFiles\\Labs\\01\\azuredeploy30301subc.json** 파일을 업로드합니다.
 
-1. Cloud Shell 창에서 다음을 실행하여 리소스 그룹을 만듭니다('<Azure region>' 자리 표시자는 구독에서 사용할 수 있으며 랩 컴퓨터 위치와 가장 가까운 Azure 지역의 이름으로 바꿉니다).
+1. Cloud Shell 창에서 다음을 실행하여 리소스 그룹을 만듭니다(`<Azure region>` 자리 표시자는 구독에서 사용할 수 있으며 랩 컴퓨터 위치와 가장 가까운 Azure 지역의 이름으로 바꿉니다).
 
    ```sh
    az deployment sub create --location '<Azure region>' --template-file azuredeploy30301subc.json --parameters rgName=az30301c-labRG rgLocation='<Azure region>'
