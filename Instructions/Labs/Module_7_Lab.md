@@ -84,9 +84,9 @@ Windows 서버 관리자 자격 증명
 
       > **참고**: Azure VM을 프로비전할 수 있는 Azure 지역을 확인하려면 [**https://azure.microsoft.com/ko-kr/regions/offers/**](https://azure.microsoft.com/ko-kr/regions/offers/)를 참고하십시오.
 
-1. Cloud Shell 창에서 Azure Resource Manager 템플릿 **\\\\AZ303\\AllFiles\Labs\\11\\azuredeploy30311rga.json**을 업로드합니다.
+1. Cloud Shell 창에서 Azure Resource Manager 템플릿 **\\\\AZ303\\AllFiles\Labs\\11\\azuredeploy30311rga.json** 을 업로드합니다.
 
-1. Cloud Shell 창에서 Azure Resource Manager 매개 변수 파일**\\\\AZ303\\AllFilesLabs\\11\\azuredeploy30311rga.parameters.json**을 업로드합니다.
+1. Cloud Shell 창에서 Azure Resource Manager 매개 변수 파일 **\\\\AZ303\\AllFilesLabs\\11\\azuredeploy30311rga.parameters.json** 을 업로드합니다.
 
 1. Cloud Shell 창에서 다음을 실행하여 이 랩에서 사용할 Windows 서버 2019를 실행하는 Azure VM을 배포합니다.
 
@@ -149,7 +149,7 @@ Windows 서버 관리자 자격 증명
 
 1. Azure Portal에서 **az30311a-labRG** 블레이드로 이동합니다.
 
-1. **az30311a-labRG** 블레이드에서 **IAM(액세스 제어)**을 선택합니다.
+1. **az30311a-labRG** 블레이드에서 **IAM(액세스 제어)** 을 선택합니다.
 
 1. **az30311a-labRG - 액세스 제어(IAM)** 블레이드에서 **역할**을 클릭합니다.
 
@@ -232,7 +232,7 @@ Windows 서버 관리자 자격 증명
  
 1. Azure Portal에서 **az30311a-labRG** 블레이드로 이동합니다.
 
-1. **az30311a-labRG** 블레이드에서 **IAM(액세스 제어)**을 선택합니다.
+1. **az30311a-labRG** 블레이드에서 **IAM(액세스 제어)** 을 선택합니다.
 
 1. **az30311a-labRG - 액세스 제어(IAM)** 블레이드에서 **+ 추가**를 선택하고 **역할 할당 추가** 옵션을 선택합니다.
 
