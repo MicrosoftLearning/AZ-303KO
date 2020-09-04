@@ -2,7 +2,7 @@
 
 # AZ-303: GitHub의 랩 파일 이름 
 
-**소스 리포지토리:** [https://github.com/MicrosoftLearning/AZ-303-Microsoft-Azure-Architect-Technologies](https://github.com/MicrosoftLearning/AZ-303-Microsoft-Azure-Architect-Technologies) 
+**소스 리포지토리:** [https://github.com/MicrosoftLearning/AZ-303KO-Microsoft-Azure-Architect-Technologies](https://github.com/MicrosoftLearning/AZ-303KO-Microsoft-Azure-Architect-Technologies) 
 
 **모듈 4 랩** 
 
