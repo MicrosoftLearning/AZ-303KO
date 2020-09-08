@@ -1,4 +1,4 @@
----
+﻿---
 title: 온라인 호스팅 지침
 permalink: index.html
 layout: home
@@ -6,7 +6,7 @@ layout: home
 
 # 콘텐츠 디렉터리
 
-랩을 완료하는 데 필요한 파일은 [여기에서 다운로드](https://github.com/MicrosoftLearning/AZ-303-Microsoft-Azure-Architect-Technologies/archive/master.zip)할 수 있습니다.
+랩을 완료하는 데 필요한 파일은 [여기에서 다운로드](https://github.com/MicrosoftLearning/AZ-303KO-Microsoft-Azure-Architect-Technologies/archive/master.zip)할 수 있습니다.
 
 아래에는 각 랩 연습의 하이퍼링크가 나열되어 있습니다.
 
