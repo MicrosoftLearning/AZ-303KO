@@ -1,10 +1,10 @@
----
+﻿---
 lab:
     title: '4: 가용성이 높은 Azure IaaS 컴퓨팅 아키텍처 구현'
     module: '모듈 4: 부하 분산 및 네트워크 보안 구현'
 ---
 
-# 랩: 항상 사용 가능한 Azure Iaas 컴퓨팅 아키텍처 구현
+# 랩: 가용성이 높은 Azure IaaS 컴퓨팅 아키텍처 구현
 # 학생 랩 매뉴얼
 
 ## 랩 시나리오
@@ -19,11 +19,11 @@ Adatum Corporation은 실제 서버와 가상 머신의 혼합 형태에서 여�
 
 -  Azure Load Balancer Standard 뒤에서 Azure VM의 영역 중복 배포
 
--  Azure Application Gateway 뒤에서 Azure VM Scale Sets의 영역 중복 배포
+-  Azure 애플리케이션 게이트웨이 뒤에서 Azure VM Scale Sets의 영역 중복 배포
 
 -  Azure VM Scale Sets의 자동 가로 크기 조정(자동 크기 조정) 
 
--  Azure VM Scale Sets의 수동 세로 크기 조정(컴퓨팅 및 스토리지)
+-  Azure VM Scale Sets의 수동 세로 크기 조정(컴퓨팅 및 저장소)
 
 가용성 집합은 동일한 Azure 데이터 센터 내에서 실제 위치를 제어하는 Azure VM의 논리적 그룹화를 나타냅니다. Azure에서는 동일한 가용성 집합 안에 있는 VM을 여러 실제 서버, 컴퓨팅 랙, 스토리지 단위, 네트워크 스위치 간에 실행할 수 있습니다. 하드웨어 또는 소프트웨어 오류가 발생하더라도 VM의 하위 집합만 영향을 받으며 전체 솔루션은 작동 가능한 상태로 유지됩니다. 가용성 집합은 신뢰할 수 있는 클라우드 솔루션을 구축하는 데 필수적입니다. Azure는 가용성 집합으로 99.95%의 VM 작동 시간 SLA를 제공합니다.
 
@@ -31,9 +31,9 @@ Adatum Corporation은 실제 서버와 가상 머신의 혼합 형태에서 여�
 
 Azure Virtual Machine Scale Sets를 사용하면 부하 분산된 동일한 VM의 그룹을 만들고 관리할 수 있습니다. VM 인스턴스 수는 수요 또는 정의된 일정에 따라 자동으로 증가하거나 감소할 수 있습니다. 확장 집합을 사용하면 애플리케이션에 고가용성을 제공하고 많은 수의 VM을 중앙에서 관리하고 구성하고 업데이트할 수 있습니다. Virtual Machine Scale Sets를 사용하면 컴퓨팅, 빅 데이터 및 컨테이너 워크로드와 같은 영역에 대한 대규모 서비스를 빌드할 수 있습니다.
 
-## 목표
+## 목적
   
-이 랩을 완료하면 다음 작업을 수행할 수 있습니다.
+이 랩을 완료하면 다음과 같은 작업을 수행할 수 있습니다.
 
 -  Azure Load Balancer Basic 뒤에 있는 동일 가용성 집합에 상주하는 고가용성 Azure VM의 특성을 설명합니다.
 
@@ -55,7 +55,7 @@ Windows 서버 관리자 자격 증명
 예상 시간: 120분
 
 
-## 랩 파일
+## Lab Files
 
 -  \\AZ303\\AllFiles\\Labs\\01\\azuredeploy30301suba.json
 
@@ -78,7 +78,7 @@ Windows 서버 관리자 자격 증명
 
 ### 연습 1: 가용성 집합과 Azure  Load Balancer Basic을 사용한 고가용성 Azure VM 배포를 구현 및 분석합니다.
   
-이 연습의 주요 작업은 다음과 같습니다:
+이 연습의 주요 작업은 다음과 같습니다.
 
 1. Azure Resource Manager 템플릿을 사용하여 Azure Load Balancer Basic 뒤에 있는 가용성 집합에 고가용성 Azure VM을 배포
 
@@ -89,33 +89,36 @@ Windows 서버 관리자 자격 증명
 
 #### 작업 1: Azure Resource Manager 템플릿을 사용하여 Azure Load Balancer Basic 뒤에 있는 가용성 집합에 고가용성 Azure VM을 배포
 
-1. 랩 컴퓨터에서 웹 브라우저를 시작하여 [Azure Portal](https://portal.azure.com)로 이동하고, 이 랩에서 사용할 구독에서 Owner 역할을 가진 사용자 계정의 자격 증명을 제공하여 로그인합니다.
+1. 랩 컴퓨터에서 웹 브라우저를 시작하여 [Azure Portal](https://portal.azure.com)로 이동하고, 이 랩에서 사용할 구독에서 소유자 역할을 가진 사용자 계정의 자격 증명을 제공하여 로그인합니다.
 
 1. Azure Portal에서 입력란의 오른쪽에 있는 도구 모음 아이콘에서 직접 선택하여 **Cloud Shell** 창을 엽니다.
 
 1. **Bash** 또는 **PowerShell**을 선택하라는 메시지가 표시되면 **Bash**를 선택합니다. 
 
-    >**참고**: **Cloud Shell**을 처음 시작하고 **탑재된 스토리지가 없음** 메시지를 받으면, 이 랩에서 사용하는 구독을 선택하고 **스토리지 만들기**를 선택합니다. 
+    > **참고**: **Cloud Shell**을 처음 시작하고 **탑재된 스토리지가 없음** 메시지를 받으면, 이 랩에서 사용하는 구독을 선택하고 **스토리지 만들기**를 선택합니다. 
     
 1. Cloud Shell 창에서 다음을 실행하여 이 랩 후반부 연습을 준비하기 위해 Microsoft.Insights 리소스 공급자를 등록합니다.
 
-   ```sh
+   ```Bash
    az provider register --namespace 'Microsoft.Insights'
    ```
 
 1. Cloud Shell 창의 도구 모음에서 **파일 업로드/다운로드** 아이콘을 선택하고 드롭다운 메뉴에서 **업로드**를 선택한 다음 Cloud Shell 홈 디렉터리에 **\\\\AZ303\\AllFiles\\Labs\\01\\azuredeploy30301suba.json** 파일을 업로드합니다.
 
-1. Cloud Shell 창에서 다음을 실행하여 리소스 그룹을 만듭니다('<Azure region>' 자리 표시자는 구독에서 Azure VM 배포에 사용할 수 있으며 랩 컴퓨터 위치에 가장 가까운 Azure 지역의 이름으로 바꿉니다).
+1. Cloud Shell 창에서 다음을 실행하여 리소스 그룹을 만듭니다 ( `<Azure region>` 자리 표시자는 구독에서 Azure VM 배포에 사용할 수 있으며 랩 컴퓨터 위치에 가장 가까운 Azure 지역의 이름으로 바꿉니다).
 
-   ```sh
+   ```Bash
    LOCATION='<Azure region>'
+   ```
+   
+   ```Bash
    az deployment sub create \
    --location $LOCATION \
    --template-file azuredeploy30301suba.json \
    --parameters rgName=az30301a-labRG rgLocation=$LOCATION
    ```
 
-      > **참고**: Azure VM을 프로비전할 수 있는 Azure 지역을 확인하려면 [**https://azure.microsoft.com/ko-kr/regions/offers/**](https://azure.microsoft.com/ko-kr/regions/offers/)를 참고하십시오.
+      > **참고**: Azure VM을 프로비전할 수 있는 Azure 지역을 확인하려면 [**https://azure.microsoft.com/ko-kr/regions/offers/**](https://azure.microsoft.com/ko-kr/regions/offers/)을 참고하세요.
 
 1. Cloud Shell 창에서 Azure Resource Manager 템플릿 **\\\\AZ303\\AllFiles\\Labs\\01\\azuredeploy30301rga.json**을 업로드합니다.
 
@@ -123,7 +126,7 @@ Windows 서버 관리자 자격 증명
 
 1. Cloud Shell 창에서 다음을 실행하여 Windows Server 2019 Datacenter Core를 호스팅하는 Azure VM 쌍으로 구성된 백엔드 풀을 사용하여 Azure Load Balancer Basic을 동일한 가용성 집합에 배포합니다.
 
-   ```sh
+   ```Bash
    az deployment group create \
    --resource-group az30301a-labRG \
    --template-file azuredeploy30301rga.json \
@@ -139,7 +142,7 @@ Windows 서버 관리자 자격 증명
 
 1. Azure Portal에서 **Network Watcher**를 검색 및 선택하고 **Network Watcher** 블레이드에서 **토폴로지**를 선택합니다.
 
-1. **Network Watcher | 토폴로지** 블레이드에서 다음 설정을 지정합니다.
+1. **Network Watcher \**에서**| 토폴로지** 블레이드는 다음 설정을 지정합니다.
 
     | 설정 | 값 | 
     | --- | --- |
@@ -151,7 +154,7 @@ Windows 서버 관리자 자격 증명
 
 1. **Network Watcher** 블레이드에서 **효과적인 보안 규칙**을 선택합니다.
 
-1. **Network Watcher | 효과적인 보안 규칙** 블레이드에서 다음 설정을 지정합니다.
+1. **Network Watcher \**에서**| 효과적인 보안 규칙** 블레이드는 다음 설정을 지정합니다.
 
     | 설정 | 값 | 
     | --- | --- |
@@ -160,13 +163,17 @@ Windows 서버 관리자 자격 증명
     | 가상 머신 | **az30301a-vm0** |
     | 네트워크 인터페이스 | **az30301a-nic0** |
 
-1. RDP 및 HTTP를 통한 인바운드 연결을 허용하는 두 가지 사용자 지정 규칙을 포함하여 관련 네트워크 보안 그룹과 효과적인 보안 규칙을 검토합니다. 
+1. RDP 및 HTTP를 통한 인바운드 연결을 허용하는 두 가지 사용자 지정 규칙을 포함하여 관련 네트워크 보안 그룹과 효과적인 보안 규칙을 검토합니다.  
 
+    > **참고**: 또는 다음에서 **효과적인 보안 규칙**을 확인할 수 있습니다.
+    - **az30301a-nic0** 네트워크 인터페이스 블레이드
+    - **az30301a-web-nsg** 네트워크 보안 그룹 블레이드 
+    
 1. **Network Watcher** 블레이드에서 **연결 문제 해결**을 선택합니다.
 
     > **참고**: 의도는 동일한 가용성 집합에서 두 Azure VM의 근접(네트워킹 용어)을 확인하는 것입니다.
 
-1. **Network Watcher | 연결 문제 해결** 블레이드에서 다음 설정을 지정하고 **확인**을 선택합니다.
+1. **Network Watcher \**에서**| 연결 문제 해결** 블레이드에서 다음 설정을 지정하고 **확인**을 선택합니다.
 
     | 설정 | 값 | 
     | --- | --- |
@@ -194,19 +201,19 @@ Windows 서버 관리자 자격 증명
 
 1. Cloud Shell 창에서 다음을 실행하여 Azure Load Balancer의 백 엔드 풀에서 Azure VM에 대한 HTTP 트래픽의 부하 분산을 테스트합니다(여기서, `<lb_IP_address>` 자리 표시자를 이전에 식별한 부하 분산 장치 프런트 엔드의 IP 주소로 대체함).
 
-   ```sh
+   ```Bash
    for i in {1..4}; do curl <lb_IP_address>; done
    ```
 
     > **참고**: 반환된 메시지가 백 엔드 Azure VM에 라운드 로빈 방식으로 요청이 전달되고 있음을 나타내는지 확인합니다.
 
-1. **az30301a-lb** 블레이드에서 **부하 분산 규칙** 항목을 선택하고 **az30301a-lb | 부하 분산 규칙** 블레이드에서HTTP 트래픽을 처리하는 부하 분산 규칙을 나타내는 **az303001a-lbruletcp80** 항목을 선택합니다. 
+1. **az30301a-lb** 블레이드에서 **부하 분산 규칙** 항목을 선택하고 **az30301a-lb \** 에서 **| 부하 분산 규칙** 블레이드에서 HTTP 트래픽을 처리하는 부하 분산 규칙을 나타내는 **az303001a-lbruletcp80** 항목을 선택합니다. 
 
 1. **az303001a-lbruletcp80** 블레이드의 **세션 지속성** 드롭다운 목록에서 **클라이언트 IP**를 선택한 다음 **저장**을 선택합니다.
 
 1. 업데이트가 완료될 때까지 기다렸다가 Cloud Shell 창에서 다음을 다시 실행하여 세션 지속성 없이 Azure Load Balancer의 백 엔드 풀에서 Azure VM에 대한 HTTP 트래픽의 부하 분산을 테스트합니다(`<lb_IP_address>` 자리 표시자를 이전에 식별한 부하 분산 장치의 프런트 엔드 IP 주소로 대체함).
 
-   ```sh
+   ```Bash
    for i in {1..4}; do curl <lb_IP_address>; done
    ```
 
@@ -216,15 +223,15 @@ Windows 서버 관리자 자격 증명
 
 1. Cloud Shell 창에서 다음을 실행하여 Azure Load Balancer의 백 엔드 풀에서 첫 번째 Azure VM에 NAT를 통한 원격 데스크톱 연결을 테스트합니다(`<lb_IP_address>` 자리 표시자는 이전에 식별한 부하 분산 장치의 프런트 엔드 IP 주소로 대체함).
 
-   ```sh
+   ```Bash
    curl -v telnet://<lb_IP_address>:33890
    ```
 
     > **참고**: 반환된 메시지가 성공적으로 연결되어 있음을 나타내는지 확인합니다. 
 
-1. **Ctrl+C** 키 조합을 눌러 Bash 셸 프롬프트로 돌아간 후 다음을 실행하여 Azure Load Balancer의 백 엔드 풀에서 두 번째 Azure VM에 NAT를 통한 원격 데스크톱 연결을 테스트합니다(`<lb_IP_address>` 자리 표시자는 이전에 식별한 부하 분산 장치의 프런트 엔드 IP 주소로 대체함).
+1. **Ctrl+C** 키 조합을 눌러 Bash 셸 프롬프트로 돌아간 후 다음을 실행하여 Azure Load Balancer의 백엔드 풀에서 두 번째 Azure VM에 NAT를 통한 원격 데스크톱 연결을 테스트합니다(`<lb_IP_address>` 자리 표시자는 이전에 식별한 부하 분산 장치의 프런트 엔드 IP 주소로 대체함).
 
-   ```sh
+   ```Bash
    curl -v telnet://<lb_IP_address>:33891
    ```
 
@@ -237,7 +244,7 @@ Windows 서버 관리자 자격 증명
 
 1. Cloud Shell 창에서 다음을 실행하여 이 연습에서 만든 리소스 그룹을 나열합니다.
 
-   ```sh
+   ```Bash
    az group list --query "[?starts_with(name,'az30301a-')]".name --output tsv
    ```
 
@@ -254,7 +261,7 @@ Windows 서버 관리자 자격 증명
 
 ### 연습 2: 가용성 영역 및 Azure Load Balancer Standard를 사용하여 고가용성 Azure VM 배포를 구현 및 분석
   
-이 연습의 주요 작업은 다음과 같습니다:
+이 연습의 주요 작업은 다음과 같습니다.
 
 1. Azure Resource Manager 템플릿을 사용하여 Azure Load Balancer Standard 뒤에 있는 가용성 영역에 고가용성 Azure VM을 배포
 
@@ -271,10 +278,13 @@ Windows 서버 관리자 자격 증명
 
 1. Cloud Shell 창의 도구 모음에서 **파일 업로드/다운로드** 아이콘을 선택하고 드롭다운 메뉴에서 **업로드**를 선택한 다음 Cloud Shell 홈 디렉터리에 **\\\\AZ303\\AllFiles\\Labs\\01\\azuredeploy30301subb.json** 파일을 업로드합니다.
 
-1. Cloud Shell 창에서 다음을 실행하여 리소스 그룹을 만듭니다(`<Azure region>` 자리 표시자는 구독에서 사용할 수 있으며 랩 컴퓨터 위치와 가장 가까운 Azure 지역의 이름으로 바꿉니다).
+1. Cloud Shell 창에서 다음을 실행하여 리소스 그룹을 만듭니다 (`<Azure region>` 자리 표시자는 구독에서 사용할 수 있으며 랩 컴퓨터 위치와 가장 가까운 Azure 지역의 이름으로 바꿉니다).
 
-   ```sh
+   ```Bash
    LOCATION='<Azure region>'
+   ```
+   
+   ```Bash
    az deployment sub create \
    --location $LOCATION \
    --template-file azuredeploy30301subb.json \
@@ -287,7 +297,7 @@ Windows 서버 관리자 자격 증명
 
 1. Cloud Shell 창에서 다음을 실행하여 두 개의 가용성 영역에서 Windows Server 2019 데이터 센터 코어를 호스팅하는 Azure VM 쌍으로 구성된 백 엔드 풀로 Azure Load Balancer 표준을 배포합니다.
 
-   ```sh
+   ```Bash
    az deployment group create \
    --resource-group az30301b-labRG \
    --template-file azuredeploy30301rgb.json \
@@ -303,7 +313,7 @@ Windows 서버 관리자 자격 증명
 
 1. Azure Portal에서 **Network Watcher**를 검색 및 선택하고 **Network Watcher** 블레이드에서 **토폴로지**를 선택합니다.
 
-1. **Network Watcher | 토폴로지** 블레이드에서 다음 설정을 지정합니다.
+1. **Network Watcher \**에서**| 토폴로지** 블레이드는 다음 설정을 지정합니다.
 
     | 설정 | 값 | 
     | --- | --- |
@@ -314,10 +324,10 @@ Windows 서버 관리자 자격 증명
 1. 결과 토폴로지 다이어그램을 검토하여 백 엔드 풀에서 공용 IP 주소, 부하 분산 장치 및 Azure VM의 네트워크 어댑터 간의 연결을 확인합니다.
 
     > **참고**: 이 다이어그램은 다른 영역(사실상 Azure 데이터 센터)에 있음에도 불구하고 Azure VM이 동일한 서브넷에 있기 때문에 이전 연습에서 본 다이어그램과 거의 동일합니다.
-
+    
 1. **Network Watcher** 블레이드에서 **효과적인 보안 규칙**을 선택합니다.
 
-1. **Network Watcher | 효과적인 보안 규칙** 블레이드에서 다음 설정을 지정합니다.
+1. **Network Watcher \**에서**| 효과적인 보안 규칙** 블레이드는 다음 설정을 지정합니다.
 
     | 설정 | 값 | 
     | --- | --- |
@@ -328,13 +338,17 @@ Windows 서버 관리자 자격 증명
 
 1. RDP 및 HTTP를 통한 인바운드 연결을 허용하는 두 가지 사용자 지정 규칙을 포함하여 관련 네트워크 보안 그룹과 효과적인 보안 규칙을 검토합니다. 
 
-    > **참고**: 이 목록은 또한 이전 연습에서 본 목록과 거의 동일하며 두 Azure VM이 연결된 서브넷과 연결된 네트워크 보안 그룹을 사용하여 네트워크 수준 보호가 구현됩니다. 그러나 이 경우 네트워크 보안 그룹은 HTTP 및 RDP 트래픽이 Azure Load Balancer 표준 SKU의 사용으로 인해 백 엔드 풀 Azure VM에 도달하는 데 필요한 것입니다(기본 SKU를 사용할 때 NSG는 선택 사항임).
+    > **참고**: 이 목록은 또한 이전 연습에서 본 목록과 거의 동일하며 두 Azure VM이 연결된 서브넷과 연결된 네트워크 보안 그룹을 사용하여 네트워크 수준 보호가 구현됩니다. 그러나 이 경우 네트워크 보안 그룹은 HTTP 및 RDP 트래픽이 Azure Load Balancer 표준 SKU의 사용으로 인해 백 엔드 풀 Azure VM에 도달하는 데 필요한 것입니다(기본 SKU를 사용할 때 NSG는 선택 사항임).  
+    
+    > **참고**: 또는 다음에서 **효과적인 보안 규칙**을 확인할 수 있습니다.
+    - **az30301a-nic0** 네트워크 인터페이스 블레이드
+    - **az30301a-web-nsg** 네트워크 보안 그룹 블레이드 
 
 1. **Network Watcher** 블레이드에서 **연결 문제 해결**을 선택합니다.
 
     > **참고**: 의도는 동일한 가용성 집합에서 두 Azure VM의 근접(네트워킹 용어)을 확인하는 것입니다.
 
-1. **Network Watcher | 연결 문제 해결** 블레이드에서 다음 설정을 지정하고 **확인**을 선택합니다.
+1. **Network Watcher \**에서**| 연결 문제 해결** 블레이드에서 다음 설정을 지정하고 **확인**을 선택합니다.
 
     | 설정 | 값 | 
     | --- | --- |
@@ -352,7 +366,7 @@ Windows 서버 관리자 자격 증명
 
 1. 결과를 검토하고 Azure VM 간의 네트워크 연결 대기 시간을 기록합니다.
 
-    > **참고**: 두 VM이 서로 다른 영역(다른 Azure 데이터 센터 내)에 있기 때문에 대기 시간은 이전 실습에서 관찰한 대기 시간보다 약간 길 수 있습니다.
+    > **참고**: 두 VM이 서로 다른 영역(다른 Azure 데이터 센터 내)에 있기 때문에 대기 시간은 이전 실습에서 관찰한 대기 시간보다 약간 높을 수 있습니다.
 
 1. Azure Portal에서 **az30301b-labRG** 리소스 그룹 블레이드로 이동하고, 리소스 목록에서 **az30301b-vm0** 가상 머신 항목을 선택한 뒤 **az30301b-vm0** 블레이드에서 **위치** 및 **가용성 영역** 항목을 확인합니다. 
 
@@ -366,19 +380,19 @@ Windows 서버 관리자 자격 증명
 
 1. Cloud Shell 창에서 다음을 실행하여 Azure Load Balancer의 백 엔드 풀에서 Azure VM에 대한 HTTP 트래픽의 부하 분산을 테스트합니다(여기서, `<lb_IP_address>` 자리 표시자를 이전에 식별한 부하 분산 장치 프런트 엔드의 IP 주소로 대체함).
 
-   ```sh
+   ```Bash
    for i in {1..4}; do curl <lb_IP_address>; done
    ```
 
     > **참고**: 반환된 메시지가 백 엔드 Azure VM에 라운드 로빈 방식으로 요청이 전달되고 있음을 나타내는지 확인합니다.
 
-1. **az30301b-lb** 블레이드에서 **부하 분산 규칙** 항목을 선택하고 **az30301b-lb | 부하 분산 규칙** 블레이드에서 HTTP 트래픽을 처리하는 부하 분산 규칙을 나타내는 **az303001b-lbruletcp80** 항목을 선택합니다. 
+1. **az30301b-lb** 블레이드에서 **부하 분산 규칙** 항목을 선택하고 **az30301b-lb \**에서**| 부하 분산 규칙** 블레이드에서 HTTP 트래픽을 처리하는 부하 분산 규칙을 나타내는 **az303001b-lbruletcp80** 항목을 선택합니다. 
 
 1. **az303001b-lbruletcp80** 블레이드의 **세션 지속성** 드롭다운 목록에서 **클라이언트 IP**를 선택한 다음 **저장**을 선택합니다.
 
 1. 업데이트가 완료될 때까지 기다렸다가 Cloud Shell 창에서 다음을 다시 실행하여 세션 지속성 없이 Azure Load Balancer의 백 엔드 풀에서 Azure VM에 대한 HTTP 트래픽의 부하 분산을 테스트합니다(`<lb_IP_address>` 자리 표시자를 이전에 식별한 부하 분산 장치의 프런트 엔드 IP 주소로 대체함).
 
-   ```sh
+   ```Bash
    for i in {1..4}; do curl <lb_IP_address>; done
    ```
 
@@ -388,15 +402,15 @@ Windows 서버 관리자 자격 증명
 
 1. Cloud Shell 창에서 다음을 실행하여 Azure Load Balancer의 백 엔드 풀에서 첫 번째 Azure VM에 NAT를 통한 원격 데스크톱 연결을 테스트합니다(`<lb_IP_address>` 자리 표시자는 이전에 식별한 부하 분산 장치의 프런트 엔드 IP 주소로 대체함).
 
-   ```sh
+   ```Bash
    curl -v telnet://<lb_IP_address>:33890
    ```
 
     > **참고**: 반환된 메시지가 성공적으로 연결되어 있음을 나타내는지 확인합니다. 
 
-1. **Ctrl+C** 키 조합을 눌러 Bash 셸 프롬프트로 돌아간 후 다음을 실행하여 Azure Load Balancer의 백 엔드 풀에서 두 번째 Azure VM에 NAT를 통한 원격 데스크톱 연결을 테스트합니다(`<lb_IP_address>` 자리 표시자는 이전에 식별한 부하 분산 장치의 프런트 엔드 IP 주소로 대체함).
+1. **Ctrl+C** 키 조합을 눌러 Bash 셸 프롬프트로 돌아간 후 다음을 실행하여 Azure Load Balancer의 백엔드 풀에서 두 번째 Azure VM에 NAT를 통한 원격 데스크톱 연결을 테스트합니다(`<lb_IP_address>` 자리 표시자는 이전에 식별한 부하 분산 장치의 프런트 엔드 IP 주소로 대체함).
 
-   ```sh
+   ```Bash
    curl -v telnet://<lb_IP_address>:33891
    ```
 
@@ -404,18 +418,18 @@ Windows 서버 관리자 자격 증명
 
 1. **Ctrl+C** 키 조합을 눌러 Bash 셸 프롬프트로 돌아가 Cloud Shell 창을 닫습니다.
 
-1. **az30301b-lb** 블레이드에서 **부하 분산 규칙** 항목을 선택하고 **az30301b-lb | 부하 분산 규칙** 블레이드에서 HTTP 트래픽을 처리하는 부하 분산 규칙을 나타내는 **az303001b-lbruletcp80** 항목을 선택합니다. 
+1. **az30301b-lb** 블레이드에서 **부하 분산 규칙** 항목을 선택하고 **az30301b-lb \**에서**| 부하 분산 규칙** 블레이드에서 HTTP 트래픽을 처리하는 부하 분산 규칙을 나타내는 **az303001b-lbruletcp80** 항목을 선택합니다. 
 
-1. **az303001b-lbruletcp80** 블레이드의 **암시적 아웃바운드 규칙 만들기** 섹션에서 **아니오**를 선택한 다음, **저장**을 선택합니다.
+1. **az303001b-lbruletcp80** 블레이드의 **아웃바운드 SNAT(Source Network Address Translation)** 섹션에서 **아웃바운드 규칙을 사용하여 백 엔드 풀 구성원에게 인터넷 액세스 권한 제공(권장)**을 선택한 다음 **저장**을 선택합니다.
 
-1. **az30301b-lb** 블레이드로 다시 이동하여 **아웃바운드 규칙** 항목을 선택하고 **az30301b-lb | 아웃바운드 규칙** 블레이드에서 **+ 추가**를 선택합니다.
+1. **az30301b-lb** 블레이드로 다시 이동하여 **아웃바운드 규칙** 항목을 선택하고 **az30301b-lb \**에서**| 아웃바운드 규칙** 블레이드에서 **+ 추가**를 선택합니다.
 
 1. **아웃바운드 규칙 추가** 블레이드에서 다음 설정을 지정하고 **추가**를 선택합니다(다른 모든 설정을 기본값으로 남겨둡니다).
 
     | 설정 | 값 | 
     | --- | --- |
     | 이름 | **az303001b-obrule** | 
-    | 프런트 엔드 IP 주소 | **az30301b-lb** 부하 분산 장치의  기존 프런트 엔드 IP 주소의 이름 |
+    | 프론트 엔드 IP 주소 | **az30301b-lb** 부하 분산 장치의  기존 프런트 엔드 IP 주소의 이름 |
     | 백 엔드 풀 | **az30301b-bepool** |
     | 포트 할당 | **아웃바운드 포트 수를 수동으로 선택** |
     | 선택 기준 | **최대 백 엔드 인스턴스 수** |
@@ -425,7 +439,7 @@ Windows 서버 관리자 자격 증명
 
 1. Azure Portal에서 **az30301b-labRG** 리소스 그룹 블레이드로 이동하여 리소스 목록에서 **az30301b-vm0** 가상 머신 항목을 선택하고 **az30301b-vm0** 블레이드의 **작업** 블레이드에서 **실행 명령**을 선택합니다.
 
-1. **az30301b-vm0 | 실행 명령** 블레이드에서 **RunPowerShellScript**를 선택합니다. 
+1. **az30301b-vm0 \**에서**| 실행 명령** 블레이드에서 **RunPowerShellScript**를 선택합니다. 
 
 1. **실행 명령 스크립트** 블레이드의 **PowerShell 스크립트** 텍스트 상자에서 다음을 입력하고 **실행**을 선택합니다.
 
@@ -444,7 +458,7 @@ Windows 서버 관리자 자격 증명
 
 1. Cloud Shell 창에서 다음을 실행하여 이 연습에서 만든 리소스 그룹을 나열합니다.
 
-   ```sh
+   ```Bash
    az group list --query "[?starts_with(name,'az30301b-')]".name --output tsv
    ```
 
@@ -452,7 +466,7 @@ Windows 서버 관리자 자격 증명
 
 1. Cloud Shell 창에서 다음을 실행하여 이 랩에서 만든 리소스 그룹을 삭제합니다.
 
-   ```sh
+   ```Bash
    az group list --query "[?starts_with(name,'az30301b-')]".name --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
    ```
 
@@ -461,11 +475,11 @@ Windows 서버 관리자 자격 증명
 
 ### 연습 3: 가용성 영역 및 Azure Application Gateway를 사용하여 고가용성 Azure VM 확장 집합 배포를 구현 및 분석합니다.
   
-이 연습의 주요 작업은 다음과 같습니다:
+이 연습의 주요 작업은 다음과 같습니다.
 
 1. Azure Resource Manager 템플릿을 사용하여 Azure Application Gateway 뒤에 있는 가용성 영역에 고가용성 Azure VM 확장 집합을 배포
 
-1. Azure Application Gateway 뒤에 있는 가용성 영역에 배포된 가용성이 높은 Azure VM 확장 집합 분석
+1. Azure Application Gateway 뒤에 있는 가용성 영역에 배포된 가용성이 높은 Azure VM Scale Set 분석
 
 1. 연습에서 배포된 Azure 리소스를 제거합니다.
 
@@ -478,9 +492,9 @@ Windows 서버 관리자 자격 증명
 
 1. Cloud Shell 창의 도구 모음에서 **파일 업로드/다운로드** 아이콘을 선택하고 드롭다운 메뉴에서 **업로드**를 선택한 다음 Cloud Shell 홈 디렉터리에 **\\\\AZ303\\AllFiles\\Labs\\01\\azuredeploy30301subc.json** 파일을 업로드합니다.
 
-1. Cloud Shell 창에서 다음을 실행하여 리소스 그룹을 만듭니다(`<Azure region>` 자리 표시자는 구독에서 사용할 수 있으며 랩 컴퓨터 위치와 가장 가까운 Azure 지역의 이름으로 바꿉니다).
+1. Cloud Shell 창에서 다음을 실행하여 리소스 그룹을 만듭니다 (`<Azure region>` 자리 표시자는 구독에서 사용할 수 있으며 랩 컴퓨터 위치와 가장 가까운 Azure 지역의 이름으로 바꿉니다).
 
-   ```sh
+   ```Bash
    az deployment sub create --location '<Azure region>' --template-file azuredeploy30301subc.json --parameters rgName=az30301c-labRG rgLocation='<Azure region>'
    ```
 
@@ -499,11 +513,11 @@ Windows 서버 관리자 자격 증명
 1. Azure Portal에서 Cloud Shell 창을 닫습니다. 
 
 
-#### 작업 2: Azure Application Gateway 뒤에 있는 가용성 영역에 배포된 가용성이 높은 Azure VM 확장 집합 분석
+#### 작업 2: Azure Application Gateway 뒤에 있는 가용성 영역에 배포된 가용성이 높은 Azure VM Scale Set 분석
 
 1. Azure Portal에서 **Network Watcher**를 검색 및 선택하고 **Network Watcher** 블레이드에서 **토폴로지**를 선택합니다.
 
-1. **Network Watcher | 토폴로지** 블레이드는 다음 설정을 지정합니다.
+1. **Network Watcher \**에서**| 토폴로지** 블레이드는 다음 설정을 지정합니다.
 
     | 설정 | 값 | 
     | --- | --- |
@@ -523,9 +537,9 @@ Windows 서버 관리자 자격 증명
 
     > **참고**: Azure VM과 달리 Azure VM Scale Sets의 개별 인스턴스는 동일한 영역에 배포된 인스턴스를 포함하여 별도의 장애 도메인에 배포합니다. 또한 최대 3개의 장애 도메인을 사용할 수 있는 Azure VM과 달리 5개의 장애 도메인을 지원합니다. 
 
-1. **az30301c-vmss** 블레이드에서 **인스턴스**를 선택하고 **az30301c-vmss | 인스턴스** 블레이드에서 첫 번째 인스턴스를 선택하고 **위치** 속성 값을 검토하여 가용성 영역을 식별합니다. 
+1. **az30301c-vmss** 블레이드에서 **인스턴스**를 선택하고 **az30301c-vmss \**에서**| 인스턴스** 블레이드에서 첫 번째 인스턴스를 선택하고 **위치** 속성 값을 검토하여 가용성 영역을 식별합니다. 
 
-1. **az30301c-vmss | 인스턴스** 블레이드로 돌아가 두 번째 인스턴스를 선택하고 **위치** 속성 값을 검토하여 가용성 영역을 식별합니다. 
+1. **az30301c-vmss \**로 다시 이동하여**| 인스턴스** 블레이드에서 두 번째 인스턴스를 선택하고 **위치** 속성 값을 검토하여 가용성 영역을 식별합니다. 
 
     > **참고**: 각 인스턴스가 다른 가용성 영역에 있는지 확인합니다.
 
@@ -535,13 +549,13 @@ Windows 서버 관리자 자격 증명
 
 1. Cloud Shell 창에서 다음을 실행하여 Azure Application Gateway의 백 엔드 풀에서 Azure VM Scale Set 인스턴스에 대한 HTTP 트래픽의 부하 분산을 테스트합니다(`<lb_IP_address>` 자리 표시자는 이전에 식별한 게이트웨이의 프런트 엔드 IP 주소로 대체함).
 
-   ```sh
-   for i in {1..4}; do curl <lb_IP_address>; done
+   ```Bash
+   for i in {1..4}; do curl <appgw_IPaddress>; done
    ```
 
     > **참고**: 반환된 메시지가 백 엔드 Azure VM에 라운드 로빈 방식으로 요청이 전달되고 있음을 나타내는지 확인합니다.
 
-1. **az30301c-appgw** 블레이드에서 **HTTP 설정** 항목을 선택하고 **az30301c-appgw | HTTP 설정** 블레이드에서 HTTP 트래픽을 처리하는 부하 분산 규칙을 나타내는 **appGwBackentHttpSettings** 항목을 선택합니다. 
+1. **az30301c-appgw** 블레이드에서 **HTTP 설정** 항목을 선택하고 **az30301c-appgw \**에서**| HTTP 설정** 블레이드에서 HTTP 트래픽을 처리하는 부하 분산 규칙을 나타내는 ** appGwBackentHttpSettings** 항목을 선택합니다. 
 
 1. **appGwBackentHttpSettings** 블레이드에서 변경 없이 기존 설정을 검토하고 **쿠키 기반 선호도**를 활성화할 수 있음을 확인합니다.
 
@@ -552,7 +566,7 @@ Windows 서버 관리자 자격 증명
 
 ### 연습 4: 가용성 영역 및 Azure Applicatoin Gateway를 사용하여 Azure VM Scale Sets의 자동 크기 조정을 구현합니다.
   
-이 연습의 주요 작업은 다음과 같습니다:
+이 연습의 주요 작업은 다음과 같습니다.
 
 1. Azure VM Scale Set의 자동 크기 조정 구성
 
@@ -562,7 +576,7 @@ Windows 서버 관리자 자격 증명
 
 1. Azure Portal에서 **az30301c-labRG** 리소스그룹 블레이드로 이동하여 리소스 목록에서 **az30301c-vmss** 가상 머신 확장 집합 항목을 선택하고, **az30301c-vmss** 블레이드에서 **크기 조정**을 선택합니다. 
 
-1. **az30301c-vmss | 크기 조정** 블레이드에서 **사용자 지정 자동 크기 조정** 옵션을 선택합니다.
+1. **az30301c-vmss \**에서**| 크기 조정** 블레이드에서 **사용자 지정 자동 크기 조정** 옵션을 선택합니다.
 
 1. **사용자 지정 크기 조정** 섹션에서 다음 설정을 지정합니다(나머지는 기본값을 그대로 유지).
 
@@ -595,7 +609,7 @@ Windows 서버 관리자 자격 증명
 
     > **참고**: 이러한 값은 가능한 한 빨리 크기 조정을 트리거하려는 랩 목적을 위해 엄격하게 선택됩니다. Azure VM Scale Set 크기 조정에 대한 지침은 [Microsoft Docs](https://docs.microsoft.com/ko-kr/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-autoscale-overview)를 참조하세요. 
 
-1. **az30301c-vmss | 크기 조정** 블레이드로 돌아가 **+ 규칙 추가**를 선택합니다.
+1. **az30301c-vmss \**로 돌아갑니다**| 크기 조정** 블레이드, **+ 규칙 추가**를 선택합니다.
 
 1. **크기 조정 규칙** 블레이드에서 다음 설정을 지정하고 **추가**를 선택합니다(나머지는 기본값을 그대로 유지).
 
@@ -615,16 +629,16 @@ Windows 서버 관리자 자격 증명
     | 인스턴스 개수 | **1** |
     | 휴지 기간(분) | **5** |
 
-1. **az30301c-vmss | 크기 조정** 블레이드로 돌아가 저장을 선택합니다.
+1. **az30301c-vmss**로 돌아갑니다.** | 크기 조정**블레이드에서 **저장**을 선택합니다.
 
 
-#### 작업 2: Azure VM 확장 집합의 자동 크기 조정 테스트
+#### 작업 2: Azure VM Scale Set의 자동 크기 조정 테스트
 
 1. Azure Portal의 Cloud Shell 창에서 새 **Bash** 세션을 시작합니다. 
 
-1. Cloud Shell 창에서 다음을 실행하여 Azure Application Gateway의 백 엔드 풀에서 Azure VM 확장 집합 인스턴스의 자동 크기 조정을 트리거합니다(`<lb_IP_address>` 자리 표시자를 이전에 식별한 게이트웨이의 프런트 엔드 IP 주소로 대체).
+1. Cloud Shell 창에서 다음을 실행하여 Azure Application Gateway의 백 엔드 풀에서 Azure VM Scale Set 인스턴스의 자동 크기 조정을 트리거합니다(`<lb_IP_address>` 자리 표시자를 이전에 식별한 게이트웨이의 프런트 엔드 IP 주소로 대체).
 
-   ```sh
+   ```Bash
    for (( ; ; )); do curl -s <lb_IP_address>?[1-10]; done
    ```
 1. Azure Portal의 **az30301c-vmss** 블레이드에서 **CPU(평균)** 차트를 검토하고, Application Gateway의 CPU 사용률이 트리거를 확장할 만큼 충분히 증가했는지 확인하세요.
@@ -633,7 +647,7 @@ Windows 서버 관리자 자격 증명
 
 1. **az30301c-vmss** 블레이드에서 **인스턴스** 항목을 선택하고 인스턴스 수가 증가했는지 확인합니다.
 
-    > **참고**: **az30301c-vmss | 인스턴스** 블레이드를 새로 고침해야 할 수 있습니다.
+    > **참고**: **az30301c-vmss \** 를 새로 고침해야 할 수 있습니다 **| 인스턴스** 블레이드.
 
     > **참고**: 인스턴스 수가 1이 아닌 2씩 증가하는 것을 볼 수 있습니다. 최종 실행 인스턴스 수가 3개인 한 이 항목이 예상됩니다. 
 
@@ -645,18 +659,18 @@ Windows 서버 관리자 자격 증명
 
 1. **az30301c-vmss** 블레이드에서 **인스턴스** 항목을 선택하고 인스턴스 수가 2로 감소했는지 확인하세요.
 
-    > **참고**: **az30301c-vmss | 인스턴스** 블레이드를 새로 고침해야 할 수 있습니다.
+    > **참고**: **az30301c-vmss \** 를 새로 고침해야 할 수 있습니다 **| 인스턴스** 블레이드.
 
 1. **az30301c-vmss** 블레이드에서 **크기 조정**을 선택합니다. 
 
-1. **az30301c-vmss | 크기 조정** 블레이드에서 **수동 크기 조정** 옵션을 선택하고 **저장**을 선택합니다.
+1. **az30301c-vmss \** 에서 **| 크기 조정** 블레이드에서 **수동 크기 조정** 옵션을 선택하고 **저장**을 선택합니다.
 
     > **참고**: 이를 통해 다음 연습 중에 원하지 않는 크기 조정을 방지합니다. 
 
 
 ### 연습 5: Azure VM Scale Sets의 수직 크기 조정 구현
 
-이 연습의 주요 작업은 다음과 같습니다:
+이 연습의 주요 작업은 다음과 같습니다.
 
 1. Azure 가상 머신 확장 집합 인스턴스의 컴퓨팅 리소스 크기를 조정합니다.
 
@@ -669,9 +683,9 @@ Windows 서버 관리자 자격 증명
 
 1. 사용 가능한 크기 리스트에서 현재 구성된 것 이외의 사용 가능한 크기를 선택하고 **크기 조정**을 선택합니다.
 
-1. **az30301c-vmss** 블레이드에서 **인스턴스** 항목을 선택하고, **az30301c-vmss | 인스턴스** 블레이드에서 기존 인스턴스를 원하는 크기의 새 인스턴스로 대체하는 프로세스를 관찰합니다.
+1. **az30301c-vmss** 블레이드에서 **인스턴스** 항목을 선택하고, **az30301c-vmss \** 에서 **| 인스턴스** 블레이드에서 기존 인스턴스를 원하는 크기의 새 인스턴스로 대체하는 프로세스를 관찰합니다.
 
-    > **참고**: **az30301c-vmss | 인스턴스** 블레이드를 새로 고침해야 할 수 있습니다.
+    > **참고**: **az30301c-vmss \** 를 새로 고침해야 할 수 있습니다 **| 인스턴스** 블레이드.
 
 1. 인스턴스가 업데이트되고 실행될 때까지 기다립니다.
 
@@ -686,11 +700,11 @@ Windows 서버 관리자 자격 증명
     | 크기 | **32** |
     | 스토리지 계정 유형 | **표준 HDD** |
 
-1. **az30301c-vmss** 블레이드에서 **인스턴스** 항목을 선택하고, **az30301c-vmss | 인스턴스** 블레이드에서 기존 인스턴스를 업데이트하는 프로세스를 관찰합니다.
+1. **az30301c-vmss** 블레이드에서 **인스턴스** 항목을 선택하고, **az30301c-vmss \** 에서 **| 인스턴스** 블레이드에서 기존 인스턴스를 업데이트하는 프로세스를 관찰합니다.
 
     > **참고**: 이전 단계에서 연결된 디스크는 원시 디스크입니다. 사용하려면 먼저 파티션을 만들고 포맷한 후 탑재해야 합니다. 이를 위해 사용자 지정 스크립트 확장을 통해 Azure VM 확장 집합 인스턴스에 PowerShell 스크립트를 배포합니다. 하지만 먼저 제거해야 합니다.
 
-1. **az30301c-vmss** 블레이드에서 **확장**을 선택하고, **az30301c-vmss | 확장** 블레이드, **customScriptExtension** 항목을 선택한 다음 **확장** 블레이드에서 **제거**를 선택합니다.
+1. **az30301c-vmss** 블레이드에서 **확장**을 선택하고, **az30301c-vmss \** 에서 **| 확장** 블레이드, **customScriptExtension** 항목을 선택한 다음 **확장** 블레이드에서 **제거**를 선택합니다.
 
     > **참고**: 제거가 완료될 때까지 기다립니다.
 
@@ -713,7 +727,7 @@ Windows 서버 관리자 자격 증명
 
 1. Azure Portal에서 **az30301c-vmss** 가상 머신 확장 집합 블레이드로 다시 이동합니다. 
 
-1. **az30301c-vmss** 블레이드에서 **확장**을 선택하고, **az30301c-vmss | 확장** 블레이드에서 **+ 추가**를 선택한 다음, **확장** 블레이드의 **customScriptExtension** 항목을 선택합니다.
+1. **az30301c-vmss** 블레이드에서 **확장**을 선택하고, **az30301c-vmss \** 에서 **| 확장** 블레이드에서 **+ 추가**를 선택한 다음, **확장** 블레이드의 **customScriptExtension** 항목을 선택합니다.
 
 1. **새 리소스** 블레이드에서 **사용자 지정 스크립트 확장**을 선택한 다음 **만들기**를 선택합니다.
 
@@ -723,16 +737,16 @@ Windows 서버 관리자 자격 증명
 
 1. **확장 설치** 블레이드로 돌아가서 **확인**을 선택합니다.
 
-1. **az30301c-vmss** 블레이드에서 **인스턴스** 항목을 선택하고, **az30301c-vmss | 인스턴스** 블레이드에서 기존 인스턴스를 업데이트하는 프로세스를 관찰합니다.
+1. **az30301c-vmss** 블레이드에서 **인스턴스** 항목을 선택하고, **az30301c-vmss** 에서 **| 인스턴스** 블레이드, 기존 인스턴스를 업데이트하는 프로세스를 관찰합니다.
 
-    > **참고**: **az30301c-vmss | 인스턴스** 블레이드새로 고침해야 할 수 있습니다.
+    > **참고**: **az30301c-vmss \** 를 새로 고침해야 할 수 있습니다 **| 인스턴스** 블레이드.
 
 
 #### 작업 3: 연습에서 배포된 Azure 리소스를 제거합니다.
 
 1. Cloud Shell 창에서 다음을 실행하여 이 연습에서 만든 리소스 그룹을 나열합니다.
 
-   ```sh
+   ```Bash
    az group list --query "[?starts_with(name,'az30301c-')]".name --output tsv
    ```
 
@@ -740,8 +754,8 @@ Windows 서버 관리자 자격 증명
 
 1. Cloud Shell 창에서 다음을 실행하여 이 랩에서 만든 리소스 그룹을 삭제합니다.
 
-   ```sh
+   ```Bash
    az group list --query "[?starts_with(name,'az30301c-')]".name --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
    ```
-
+   
 1. Cloud Shell 창을 닫습니다.

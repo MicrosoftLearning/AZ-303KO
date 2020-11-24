@@ -1,21 +1,21 @@
----
+﻿---
 lab:
     title: '5: Azure Storage 파일 및 Blob 서비스 구현 및 구성'
     module: '모듈 5: 스토리지 계정 구현'
 ---
 
 # 랩: Azure Storage 파일과 Blob 서비스 구현 및 구성
-# 학생 랩 설명서
+# 학생 랩 매뉴얼
 
 ## 랩 시나리오
  
-Adatum Corporation은 온-프레미스 스토리지에 많은 양의 비정형 및 반구조화 데이터를 호스팅합니다. 유지 보수가 점점 더 복잡해지고 비용도 많이 들어갑니다. 일부 데이터는 데이터 보존 요구 사항을 해결하기 위해 오랜 시간 동안 보존됩니다. Adatum Enterprise 아키텍처 팀은 계층화된 스토리지를 지원하는 저렴한 대안을 찾고 있으며 동시에 보안 액세스를 허용하여 데이터 유출 가능성을 최소화합니다. 이 팀은 Azure Storage에서 거의 무제한으로 용량을 제공하는 것을 알고 있지만, 해당 스토리지 계정의 전체 콘텐츠에 무제한 액세스 권한을 부여하는 계정 키를 사용하는 것에 대해 우려하고 있습니다. 키를 순서대로 돌아가며 사용할 수 있지만, 이러한 작업은 적절한 계획에 따라 수행해야 합니다. 또한, 액세스 키는 사용을 적절하게 감사하는 기능을 제한하는 권한 부여 메커니즘으로만 구성됩니다.
+Adatum Corporation은 온-프레미스 스토리지에 많은 양의 비정형 및 반구조화 데이터를 호스팅합니다. 유지 보수는 점점 더 복잡해지고 관련 비용이 증가합니다. 일부 데이터는 데이터 보존 요구 사항을 해결하기 위해 아주 오랫동안 보존됩니다. Adatum 엔터프라이즈 아키텍처 팀은 계층 스토리지를 지원하는 동시에 데이터 반출 가능성이 최소화되는 보안 액세스를 허용하는 저렴한 대안을 찾고 있습니다. 팀은 Azure Storage에서 거의 무제한 용량을 제공한다는 것을 알고 있지만 해당 스토리지 계정의 전체 콘텐츠에 무제한 액세스 권한을 부여하는 계정 키의 사용이 우려스럽습니다. 키를 질서 정연하게 회전할 수 있지만 이러한 작업은 적절한 계획에 따라 수행해야 합니다. 또한 액세스 키는 사용량을 적절하게 감사하는 기능을 제한하는 권한 부여 메커니즘만 구성합니다.
 
-이러한 단점을 해결하기 위해 아키텍처 팀은 공유 액세스 서명의 사용에 대해 살펴보기로 결정했습니다. SAS(공유 액세스 서명)은 의도하지 않은 데이터 노출 가능성을 최소화하면서 스토리지 계정의 리소스에 대한 안전하게 위임된 액세스 권한을 제공합니다. SAS는 Blob과 같은 개별 스토리지 개체에 대한 액세스를 제한하고 사용자 지정 시간 창에 대한 액세스를 제한하고 지정된 IP 주소 범위에 대한 네트워크 액세스를 필터링하는 기능을 포함하여 데이터 액세스를 세분화하여 제어할 수 있습니다. 또한 아키텍처 팀은 감사 요구 사항을 해결하기 위해 Azure Storage와 Azure Active Directory 간의 통합 수준을 평가하려고 합니다. 또한, 아키텍처 팀은 일부 온-프레미스 파일 공유의 대안으로 Azure Files의 적합성도 확인하기로 결정했습니다.
+이러한 단점을 해결하기 위해 아키텍처 팀은 공유 액세스 서명의 사용을 살펴보기로 결정했습니다. SAS(공유 액세스 서명)는 의도하지 않은 데이터 노출 가능성을 최소화하면서 스토리지 계정의 리소스에 대한 안전하고 위임된 액세스를 제공합니다. SAS는 Blob과 같은 개별 스토리지 개체에 대한 액세스를 제한하고, 사용자 지정 시간 창에 대한 액세스를 제한하며, 지정된 IP 주소 범위에 대한 네트워크 액세스를 필터링하는 등 데이터 액세스를 섬세하게 컨트롤할 수 있습니다. 또한 아키텍처 팀은 감사 요구 사항을 해결하기 위해 Azure Storage와 Azure Active Directory 간의 통합 수준을 평가하려고 합니다. 또한 아키텍처 팀은 일부 온-프레미스 파일 공유의 대안으로 Azure Files의 적합성을 결정하기로 결정했습니다.
 
-이러한 목표를 달성하기 위해 Adatum 회사는 다음과 같은 Azure Storage 리소스에 대한 다양한 인증 및 권한 부여 메커니즘을 테스트합니다.
+이러한 목표를 완료하기 위해 Adatum Corporation은 다음과 같은 Azure Storage 리소스에 대한 인증 범위 및 권한 부여 메커니즘을 테스트합니다.
 
--  계정, 컨테이너 및 개체 수준에서 공유 액세스 서명 사용
+-  계정과 컨테이너, 개체 수준에서 공유 액세스 서명 사용
 
 -  Blob에 대한 액세스 수준 구성 
 
@@ -24,15 +24,15 @@ Adatum Corporation은 온-프레미스 스토리지에 많은 양의 비정형 �
 -  스토리지 계정 액세스 키 사용
 
 
-## 목표
+## 목적
   
-이 랩을 완료하면 다음 작업을 수행할 수 있습니다.
+이 랩을 완료하면 다음과 같은 작업을 수행할 수 있습니다.
 
 -  공유 액세스 서명을 활용하여 Azure Storage Blob의 권한 부여 구현
 
 -  Azure Active Directory를 활용하여 Azure Storage Blob의 권한 부여 구현
 
--  액세스 키를 활용하여 Azure Storage 파일 공유의 권한 부여 구현
+-  액세스 키를 활용하여 Azure Storage 파일 공유 권한 부여 구현
 
 
 ## 랩 환경
@@ -46,7 +46,7 @@ Windows 서버 관리자 자격 증명
 예상 시간: 90분
 
 
-## 랩 파일
+## Lab Files
 
 -  \\\\AZ303\\AllFiles\\Labs\\02\\azuredeploy30302suba.json
 
@@ -78,6 +78,9 @@ Windows 서버 관리자 자격 증명
 
    ```powershell
    $location = '<Azure region>'
+   ```
+   
+   ```powershell
    New-AzSubscriptionDeployment `
      -Location $location `
      -Name az30302subaDeployment `
@@ -88,9 +91,9 @@ Windows 서버 관리자 자격 증명
 
       > **참고**: Azure VM을 프로비전할 수 있는 Azure 지역을 확인하려면 [**https://azure.microsoft.com/ko-kr/regions/offers/**](https://azure.microsoft.com/ko-kr/regions/offers/)을 참조하세요.
 
-1. Cloud Shell 창에서 Azure Resource Manager 템플릿 **\\\\AZ303\\AllFiles\Labs\\02\\azuredeploy30302rga.json** 을 업로드합니다.
+1. Cloud Shell 창에서 Azure Resource Manager 템플릿 **\\\\AZ303\\AllFiles\Labs\\02\\azuredeploy30302rga.json**을 업로드합니다.
 
-1. Cloud Shell 창에서 Azure Resource Manager 매개 변수 파일 **\\\\AZ303\\AllFilesLabs\\02\\azuredeploy30302rga.parameters.json** 을 업로드합니다.
+1. Cloud Shell 창에서 Azure Resource Manager 매개 변수 파일**\\\\AZ303\\AllFilesLabs\\02\\azuredeploy30302rga.parameters.json**을 업로드합니다.
 
 1. Cloud Shell 창에서 다음을 실행하여 이 랩에서 사용할 Windows 서버 2019를 실행하는 Azure VM을 배포합니다.
 
@@ -103,7 +106,7 @@ Windows 서버 관리자 자격 증명
      -AsJob
    ```
 
-    > **참고**: 배포가 완료될 때까지 기다리지 말고 다음 연습을 진행하세요. 배포에는 5분 미만이 소요됩니다.
+    > **참고**: 배포가 완료될 때까지 기다리지 말고 다음 연습을 진행하세요. 배포에는 최대 5분이 소요됩니다.
 
 1. Azure Portal에서 **Cloud Shell** 창을 닫습니다. 
 
@@ -118,9 +121,9 @@ Windows 서버 관리자 자격 증명
 
 1. 계정 수준 공유 액세스 서명 생성
 
-1. Azure Storage Explorer를 사용하여 BLOB 컨테이너 만들기
+1. Azure Storage Explorer를 사용하여 Blob 컨테이너 만들기
 
-1. AzCopy를 사용하여 Blob 컨테이너에 파일 업로드
+1. AzCopy를 사용하여 Blob 컨테이너에 파일을 업로드
 
 1. Blob 수준 공유 액세스 서명을 사용하여 Blob에 액세스
 
@@ -135,15 +138,15 @@ Windows 서버 관리자 자격 증명
     | --- | --- |
     | 구독 | 이 랩에서 사용 중인 Azure 구독의 이름 |
     | 리소스 그룹 | 새 리소스 그룹 **az30302a-labRG**의 이름 |
-    | 스토리지 계정 이름 | 문자와 숫자로 구성된 3~24자 사이의 전역적으로 고유한 이름 |
+    | 저장소 계정 이름 | 문자와 숫자로 구성된 3~24자 사이의 전역적으로 고유한 이름 |
     | 위치 | Azure Storage 계정을 만들 수 있는 Azure 지역의 이름  |
     | 성능 | **표준** |
     | 계정 종류 | **StorageV2(범용 v2)** |
     | 복제 | **로컬 중복 스토리지 (LRS)** |
 
-1. **다음:** 선택 **네트워킹 >**, **스토리지 계정 만들기** 블레이드의 **네트워킹** 탭에서 사용 가능한 옵션을 검토하고 기본 옵션 **공용 엔드포인트(모든 네트워크)** 를 수락하고 **다음:** 을 선택합니다.**데이터 보호 >**.
+1. **다음: 네트워킹 >** 을 선택하고, **스토리지 계정 만들기** 블레이드의 **네트워킹** 탭에서 사용 가능한 옵션을 검토하고 기본 옵션 **공용 엔드포인트(모든 네트워크)**를 수락하고 **다음:**을 선택합니다.** 데이터 보호 >**.
 
-1. **스토리지 계정 만들기** 블레이드의 **데이터 보호** 탭에서 사용 가능한 옵션을 검토하고 기본값을 수락하고 **다음:**을 선택합니다.** 고급 >**.
+1. **스토리지 계정 만들기** 블레이드의 **데이터 보호** 탭에서 사용 가능한 옵션을 검토하고 기본값을 수락하고 **다음: 고급 >** 을 선택합니다.
 
 1. **스토리지 계정 만들기** 블레이드의 **고급** 탭에서 사용 가능한 옵션을 검토하고 기본값을 수락하고 **검토 + 만들기**를 선택한 다음, 유효성 검사 프로세스가 완료될 때까지 기다린 후 **만들기**를 선택합니다.
 
@@ -187,20 +190,20 @@ Windows 서버 관리자 자격 증명
     | 설정 | 값 | 
     | --- | --- |
     | 허용된 서비스 | **Blob** |
-    | 허용된 서비스 유형 | **서비스** 및 **컨테이너** |
+    | 허용되는 리소스 종류 | **서비스** 및 **컨테이너** |
     | 허용된 권한 | **읽기**, **나열** 및 **만들기** |
     | Blob 버전 관리 권한 | 사용 안 함 |
     | 시작 | 현재 표준 시간대의 현재 시간 이전 24시간 | 
     | 종료 | 현재 표준 시간대의 현재 시간 이후 24시간 |
     | 허용된 프로토콜: | **HTTPS만** |
-    | 서명 키 | **키 1** |
+    | 서명 키 | **key1** |
 
 1. **SAS 및 연결 문자열 생성**을 선택합니다.
 
-1.  **Blob service SAS URL** 값을 클립보드에 복사합니다. 
+1. **Blob service SAS URL** 값을 클립보드에 복사합니다.
 
 
-#### 작업 4: Azure Storage Explorer를 사용하여 BLOB 컨테이너 만들기
+#### 작업 4: Azure Storage Explorer를 사용하여 Blob 컨테이너 만들기
 
 1. **az30302a-vm0**에 대한 원격 데스크톱 세션에서 Azure Storage Explorer를 시작합니다. 
 
@@ -227,14 +230,14 @@ Windows 서버 관리자 자격 증명
 1. Azure Storage Explorer 창을 열어 둡니다.
 
 
-#### 작업 5: AzCopy를 사용하여 Blob 컨테이너에 파일 업로드
+#### 작업 5: AzCopy를 사용하여 Blob 컨테이너에 파일을 업로드
 
 1. **az30302a-vm0**에 대한 원격 데스크톱 세션 내 브라우저 창의 **공유 액세스 서명** 블레이드에서 다음 설정을 지정합니다(다른 설정은 기본값으로 둡니다).
 
     | 설정 | 값 | 
     | --- | --- |
     | 허용된 서비스 | **Blob** |
-    | 허용된 서비스 유형 | **개체** |
+    | 허용되는 리소스 종류 | **개체** |
     | 허용된 권한 | **읽기**, **만들기** |
     | Blob 버전 관리 권한 | 사용 안 함 |
     | 시작 | 현재 표준 시간대의 현재 시간 이전 24시간 | 
@@ -272,16 +275,16 @@ Windows 서버 관리자 자격 증명
 
 1. **az30302a-vm0**에서 원격 데스크톱 세션 내의 브라우저 창에서 스토리지 계정 블레이드의 **Blob 서비스** 섹션에서 **컨테이너**를 선택합니다.
 
-1. 컨테이너 목록에서 **container1**을 선택합니다.
+1. 컨테이너 목록에서 **container1** 을 선택합니다.
 
-1.  **container1** 블레이드에서 **az30302ablob.html**이 Blob 목록에 나타나는지 확인합니다.
+1. **container1** 블레이드에서 **az30302ablob.html**이 Blob 목록에 나타나는지 확인합니다.
 
 
 #### 작업 6: Blob 수준 공유 액세스 서명을 사용하여 Blob에 액세스
 
-1. **az30302a-vm0**에서 원격 데스크톱 세션 내 브라우저 창의 **container1** 블레이드에서 **액세스 수준 변경**을 선택하여 **비공개(익명 액세스 안 됨)** 로 설정됐는지 확인하고 **취소**를 선택합니다.
+1. **az30302a-vm0**에서 원격 데스크톱 세션 내 브라우저 창의 **container1** 블레이드에서 **액세스 수준 변경**을 선택하여 **비공개(익명 액세스 안 됨)**로 설정됐는지 확인하고 **취소**를 선택합니다.
 
-    >**참고**: 익명 액세스를 허용하려면 공용 액세스 수준을 **Blob(Blob에 대해서만 익명 읽기 액세스)** 또는 **컨테이너(컨테이너 및 Blob에 대한 익명 읽기 액세스)** 로 설정할 수 있습니다.
+    >**참고**: 익명 액세스를 허용하려면 공용 액세스 수준을 **Blob(Blob에 대해서만 익명 읽기 액세스)** 또는 **컨테이너(컨테이너 및 Blob에 대한 익명 읽기 액세스)**로 설정할 수 있습니다.
 
 1. **container1** 블레이드에서 **az30302ablob.html**를 선택합니다.
 
@@ -294,15 +297,15 @@ Windows 서버 관리자 자격 증명
 1. **Hello from az30302ablob via SAS** 메시지가 브라우저 창에 나타나는지 확인합니다.
 
 
-### 연습 2: Azure Active Directory를 사용하여 Azure Storage Blob 서비스 권한 부여 구성
+### 연습 2: Azure Active Directory를 사용하여 Azure Storage Blob Service 권한 부여를 구성
   
 이 연습의 주요 작업은 다음과 같습니다.
 
 1. Azure AD 사용자 만들기
 
-1. Azure Storage Blob 서비스에 대한 Azure Active Directory 권한 부여 사용
+1. Azure Storage Blob Service에 대한 Azure Active Directory 권한 부여를 사용하도록 설정
 
-1. AzCopy를 사용하여 Blob 컨테이너에 파일 업로드
+1. AzCopy를 사용하여 Blob 컨테이너에 파일을 업로드
 
 
 #### 작업 1: Azure AD 사용자 만들기.
@@ -315,13 +318,13 @@ Windows 서버 관리자 자격 증명
    Connect-AzureAD
    ```
    
-1. Cloud Shell 창에서 다음을 실행하여 Azure AD DNS 도메인 이름을 확인합니다.
+1. Cloud Shell 창에서 다음 명령을 실행하여 Azure AD DNS 도메인 이름을 확인합니다.
 
    ```powershell
    $domainName = ((Get-AzureAdTenantDetail).VerifiedDomains)[0].Name
    ```
 
-1. Cloud Shell 창에서 다음을 실행하여 새 Azure AD 사용자를 만듭니다.
+1. Cloud Shell 창에서 다음 명령을 실행하여 새 Azure AD 사용자를 만듭니다.
 
    ```powershell
    $passwordProfile = New-Object -TypeName Microsoft.Open.AzureAD.Model.PasswordProfile
@@ -330,7 +333,7 @@ Windows 서버 관리자 자격 증명
    New-AzureADUser -AccountEnabled $true -DisplayName 'az30302auser1' -PasswordProfile $passwordProfile -MailNickName 'az30302auser1' -UserPrincipalName "az30302auser1@$domainName"
    ```
 
-1. Cloud Shell 창에서 다음을 실행하여 새로 만든 Azure AD 사용자의 사용자 원이름을 확인합니다.
+1. Cloud Shell 창에서 다음 명령을 실행하여 새로 만든 Azure AD 사용자의 사용자 계정 이름을 확인합니다.
 
    ```powershell
    (Get-AzureADUser -Filter "MailNickName eq 'az30302auser1'").UserPrincipalName
@@ -341,26 +344,26 @@ Windows 서버 관리자 자격 증명
 1. Cloud Shell 창을 닫습니다.
 
 
-#### 작업 2: Azure Storage Blob 서비스에 대한 Azure Active Directory 권한 부여 사용
+#### 작업 2: Azure Storage Blob Service에 대한 Azure Active Directory 권한 부여를 사용하도록 설정
 
 1. **az30302a-vm0**에 할당된 원격 데스크톱 세션 내의 Azure Portal을 표시하는 브라우저 창에서 **container1** 블레이드로 다시 이동합니다.
 
 1. **container1** 블레이드에서 **Azure AD 사용자 계정으로 전환**을 선택합니다.
 
-1. Blob 컨테이너에 데이터를 나열할 권한이 더 이상 없음을 나타내는 오류 메시지를 참고합니다. 이는 예상된 입니다.
+1. Blob 컨테이너에 데이터를 나열할 권한이 더 이상 없음을 나타내는 오류 메시지를 참고합니다. 이는 예상된 것입니다.
 
     >**참고**: 구독에서 **소유자** 역할이 있음에도 불구하고 **Storage Blob 데이터 소유자**, **Storage Blob 데이터 기여자** 또는 **Storage Blob 데이터 판독기**와 같은 스토리지 계정의 Blob 콘텐츠에 대한 액세스 권한을 제공하는 기본 제공 역할이나 사용자 지정 역할도 할당해야 합니다.
 
-1. Azure Portal에서 **container1**을 호스팅하는 스토리지 계정의 블레이드로 다시 이동하여 **액세스 제어(IAM)** 에 이어 **+ 추가**를 선택하고 드롭다운 목록에서 **역할 할당 추가**를 선택합니다. 
+1. Azure Portal에서 **container1**을 호스팅하는 스토리지 계정의 블레이드로 다시 이동하여 **액세스 제어(IAM)**에 이어 **+ 추가**를 선택하고 드롭다운 목록에서 **역할 할당 추가**를 선택합니다. 
 
-    >**참고**: 스토리지 계정의 이름을 적어 둡니다. 이는 다음 작업에 필요합니다.
+    >**참고**: 스토리지 계정의 이름을 적어 둡니다. 다음 작업에 필요합니다.
 
 1. **역할 할당 추가** 블레이드의 **역할** 드롭다운 목록에서 **Storage Blob 데이터 소유자**를 선택하고 드롭다운 목록 항목에 대한 **액세스 할당**이 **Azure AD 사용자, 그룹 또는 서비스 주체**로 설정되어 있는지 확인하고, **선택** 텍스트 선택 상자 아래에 표시된 목록에서 이전 작업에서 만든 사용자 계정 및 사용자 계정을 모두 선택한 다음, **저장**을 선택합니다.
 
-1.  **container1** 블레이드로 다시 이동하여 컨테이너의 내용을 볼 수 있는지 확인합니다.
+1. **container1** 블레이드로 다시 이동하여 컨테이너의 내용을 볼 수 있는지 확인합니다.
 
 
-#### 작업 3: AzCopy를 사용하여 Blob 컨테이너에 파일 업로드
+#### 작업 3: AzCopy를 사용하여 Blob 컨테이너에 파일을 업로드
 
 1. **az30302a-vm0**에 할당된 원격 데스크톱 세션 내의 브라우저 창에서 [AzCopy 시작](https://docs.microsoft.com/ko-kr/azure/storage/common/storage-use-azcopy-v10)으로 이동합니다.
 
@@ -417,7 +420,7 @@ Windows 서버 관리자 자격 증명
 
 1. **container1** 블레이드에서 **az30302bblob.html**이 Blob 목록에 나타나는지 확인합니다.
 
-1. **container1** 블레이드에서 **액세스 수준 변경**을 선택하고 공용 액세스 수준을 **Blob(Blob에 대해서만 익명 읽기 액세스)** 으로 설정하고 **확인**을 선택합니다. 
+1. **container1** 블레이드에서 **액세스 수준 변경**을 선택하고 공용 액세스 수준을 **Blob(Blob에 대해서만 익명 읽기 액세스)**으로 설정하고 **확인**을 선택합니다. 
 
 1. Windows PowerShell 프롬프트로 다시 전환하고 다음을 다시 실행하여 업로드된 Blob에 익명으로 액세스할 수 있는지 확인합니다(이전 작업에서 확인한 스토리지 계정의 값으로 `<storage_account_name>` 자리 표시자를 대체합니다).
 
@@ -426,13 +429,13 @@ Windows 서버 관리자 자격 증명
    ```
 
 
-### 연습 3: Azure Files 구현.
+### 연습 3: Azure Files를 구현합니다.
   
 이 연습의 주요 작업은 다음과 같습니다.
 
 1. Azure Storage 파일 공유 만들기
 
-1. Windows에서 Azure Storage 파일 공유로 드라이브를 매핑합니다.
+1. 드라이브를 Windows에서 Azure Storage 파일 공유로 매핑합니다.
 
 1. 랩에 배포된 Azure 리소스 제거
 
@@ -449,7 +452,7 @@ Windows 서버 관리자 자격 증명
     | 할당량 | **1024** |
 
 
-#### 작업 2: Windows에서 Azure Storage 파일 공유로 드라이브를 매핑합니다.
+#### 작업 2: 드라이브를 Windows에서 Azure Storage 파일 공유로 매핑합니다.
 
 1. 새로 만든 파일 공유를 선택하고 **연결**을 선택합니다.
 
@@ -489,3 +492,7 @@ Windows 서버 관리자 자격 증명
    ```
 
 1. Cloud Shell 창을 닫습니다.
+
+1. Azure Portal에서 Azure 구독과 연결된 Azure Active Directory 테넌트의 **사용자** 블레이드로 이동합니다.
+
+1. 사용자 계정 목록에서 **az30302auser1** 사용자 계정을 나타내는 항목을 선택하고 도구 모음에서 줄임표 아이콘을 선택합니다. **사용자 삭제**를 선택하고 확인하라는 메시지가 표시되면 **예**를 선택합니다.  
