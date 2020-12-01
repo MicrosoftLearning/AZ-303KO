@@ -1,4 +1,4 @@
----
+﻿---
 lab:
     title: '7: Azure 역할 기반 액세스 제어 관리'
     module: '모듈 7: Azure 거버넌스 구현 및 관리'
@@ -86,7 +86,7 @@ Windows 서버 관리자 자격 증명
 
 1. Cloud Shell 창에서 Azure Resource Manager 템플릿 **\\\\AZ303\\AllFiles\Labs\\11\\azuredeploy30311rga.json**을 업로드합니다.
 
-1. Cloud Shell 창에서 Azure Resource Manager 매개 변수 파일**\\\\AZ303\\AllFilesLabs\\11\\azuredeploy30311rga.parameters.json**을 업로드합니다.
+1. Cloud Shell 창에서 Azure Resource Manager 매개 변수 파일 **\\\\AZ303\\AllFilesLabs\\11\\azuredeploy30311rga.parameters.json**을 업로드합니다.
 
 1. Cloud Shell 창에서 다음을 실행하여 이 랩에서 사용할 Windows 서버 2019를 실행하는 Azure VM을 배포합니다.
 
