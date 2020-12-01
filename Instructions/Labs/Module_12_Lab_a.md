@@ -1,4 +1,4 @@
-﻿---
+---
 lab:
     title: '12A: 스테이징 슬롯을 사용하여 Azure App Service 웹앱 구현'
     module: '모듈 12: 애플리케이션 인프라 구현'
