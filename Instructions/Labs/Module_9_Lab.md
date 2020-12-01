@@ -1,4 +1,4 @@
-﻿---
+---
 lab:
     title: '9: Azure Site Recovery를 사용한 Hyper-V VM 보호'
     module: '모듈 9: Azure에서 워크로드 관리'
