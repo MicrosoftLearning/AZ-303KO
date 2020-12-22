@@ -1,7 +1,7 @@
 ---
 lab:
-    title: '12B: 메시지 기반 통합 아키텍처 구성'
-    module: '모듈 12: 애플리케이션 인프라 구현'
+    title: '14B: 메시지 기반 통합 아키텍처 구성'
+    module: '모듈 14: 애플리케이션 인프라 구현'
 ---
 
 # 랩: 메시지 기반 통합 아키텍처 구성
@@ -85,7 +85,7 @@ Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만,
 1. Cloud Shell 창에서 다음을 실행하여 이 랩에서 프로비전할 모든 리소스를 호스팅하는 리소스 그룹을 만듭니다.
 
    ```sh
-   export RESOURCE_GROUP_NAME='az30309a-labRG'
+   export RESOURCE_GROUP_NAME='az30314b-labRG'
 
    az group create --name "${RESOURCE_GROUP_NAME}" --location "$LOCATION"
    ```
@@ -93,7 +93,7 @@ Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만,
 1. Cloud Shell 창에서 다음을 실행하여 Azure 함수에서 처리할 Blob이 있는 컨테이너를 호스팅할 Azure Storage 계정을 만듭니다.
 
    ```sh
-   export STORAGE_ACCOUNT_NAME="az30309a${PREFIX}"
+   export STORAGE_ACCOUNT_NAME="az30314b${PREFIX}"
 
    export CONTAINER_NAME="workitems"
 
@@ -117,7 +117,7 @@ Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만,
 1. Cloud Shell 창에서 다음을 실행하여 Azure 함수 처리 Blob에 대한 모니터링을 제공하고 해당 키를 변수에 저장하는 Application Insights 리소스를 만듭니다.
 
    ```sh
-   export APPLICATION_INSIGHTS_NAME="az30309ai${PREFIX}"
+   export APPLICATION_INSIGHTS_NAME="az30314bi${PREFIX}"
 
    az resource create --name "${APPLICATION_INSIGHTS_NAME}" --location "${LOCATION}" --properties '{"Application_Type": "other", "ApplicationId": "function", "Flow_Type": "Redfield"}' --resource-group "${RESOURCE_GROUP_NAME}" --resource-type "Microsoft.Insights/components"
 
@@ -172,7 +172,7 @@ Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만,
 1. Cloud Shell 창에서 다음을 실행하여 이전 작업에서 사용한 변수를 다시 채웁니다.
 
    ```sh
-   export RESOURCE_GROUP_NAME='az30309a-labRG'
+   export RESOURCE_GROUP_NAME='az30314b-labRG'
 
    export STORAGE_ACCOUNT_NAME="$(az storage account list --resource-group "${RESOURCE_GROUP_NAME}" --query "[0].name" --output tsv)"
 
@@ -236,11 +236,11 @@ Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만,
 1. Cloud Shell 창에서 다음을 실행하여 대상 리소스 그룹과 기존 리소스를 호스팅하는 Azure 지역을 식별합니다.
 
    ```sh
-   export RESOURCE_GROUP_NAME_EXISTING='az30309a-labRG'
+   export RESOURCE_GROUP_NAME_EXISTING='az30314b-labRG'
 
    export LOCATION=$(az group list --query "[?name == '${RESOURCE_GROUP_NAME_EXISTING}'].location" --output tsv)
 
-   export RESOURCE_GROUP_NAME='az30309b-labRG'
+   export RESOURCE_GROUP_NAME='az30314c-labRG'
 
    az group create --name "${RESOURCE_GROUP_NAME}" --location $LOCATION
    ```
@@ -248,7 +248,7 @@ Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만,
 1. Cloud Shell 창에서 다음을 실행하여 이 작업에서 구성할 Event Grid 구독에서 사용되는 컨테이너를 호스트할 Azure Storage 계정을 만듭니다.
 
    ```sh
-   export STORAGE_ACCOUNT_NAME="az30309bst${PREFIX}"
+   export STORAGE_ACCOUNT_NAME="az30314cst${PREFIX}"
 
    export CONTAINER_NAME="workitems"
 
@@ -276,7 +276,7 @@ Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만,
 1. Cloud Shell 창에서 다음을 실행하여 이 작업에서 구성할 Event Grid 구독에서 생성된 메시지를 저장할 스토리지 계정 큐를 만듭니다.
 
    ```sh
-   export QUEUE_NAME="az30309bq${PREFIX}"
+   export QUEUE_NAME="az30314cq${PREFIX}"
 
    az storage queue create --name "${QUEUE_NAME}" --account-name "${STORAGE_ACCOUNT_NAME}" --connection-string "${STORAGE_CONNECTION_STRING}"
    ```
@@ -284,7 +284,7 @@ Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만,
 1. Cloud Shell 창에서 다음을 실행하여 Azure Storage 계정의 지정된 컨테이너에 대한 Blob 업로드의 응답으로 Azure Storage 큐의 메시지 생성을 지원하는 Event Grid 구독을 만듭니다.
 
    ```sh
-   export QUEUE_SUBSCRIPTION_NAME="az30309bqsub${PREFIX}"
+   export QUEUE_SUBSCRIPTION_NAME="az30314cqsub${PREFIX}"
 
    az eventgrid event-subscription create --name "${QUEUE_SUBSCRIPTION_NAME}" --included-event-types 'Microsoft.Storage.BlobCreated' --endpoint "${STORAGE_ACCOUNT_ID}/queueservices/default/queues/${QUEUE_NAME}" --endpoint-type "storagequeue" --source-resource-id "${STORAGE_ACCOUNT_ID}"
    ```
@@ -318,7 +318,7 @@ Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만,
 1. Cloud Shell 창에서 다음을 실행하여 이 연습에서 만든 리소스 그룹을 나열합니다.
 
    ```sh
-   az group list --query "[?starts_with(name,'az30309')]".name --output tsv
+   az group list --query "[?starts_with(name,'az30314')]".name --output tsv
    ```
 
     > **참고**: 이 랩에서 만든 리소스 그룹만 출력에 포함되어 있는지 확인합니다. 이 작업에서는 이러한 그룹을 삭제할 것입니다.
@@ -326,7 +326,7 @@ Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만,
 1. Cloud Shell 창에서 다음을 실행하여 이 랩에서 만든 리소스 그룹을 삭제합니다.
 
    ```sh
-   az group list --query "[?starts_with(name,'az30309')]".name --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
+   az group list --query "[?starts_with(name,'az30314')]".name --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
    ```
 
 1. Cloud Shell 창을 닫습니다.

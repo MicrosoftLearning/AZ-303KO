@@ -1,7 +1,7 @@
 ---
 lab:
-    title: '12A: 스테이징 슬롯을 사용하여 Azure App Service 웹앱 구현'
-    module: '모듈 12: 애플리케이션 인프라 구현'
+    title: '14A: 스테이징 슬롯을 사용하여 Azure App Service 웹앱 구현'
+    module: '모듈 14: 애플리케이션 인프라 구현'
 ---
 
 # 랩: 스테이징 슬롯을 사용하여 Azure App Service 웹앱 구현
@@ -64,14 +64,14 @@ Adatum 아키텍처 팀은 다음 두 배포 패턴을 테스트하기 위해 �
 
     >**참고**: **Cloud Shell**을 처음 시작하고 **탑재된 스토리지가 없음** 메시지를 받으면, 이 랩에서 사용하는 구독을 선택하고 **스토리지 만들기**를 선택합니다. 
 
-1. Cloud Shell 창에서 다음을 실행하여 **az30305a1** 이라는 새 디렉터리를 만들고 현재 디렉터리로 설정합니다.
+1. Cloud Shell 창에서 다음을 실행하여 **az30314a1** 이라는 새 디렉터리를 만들고 현재 디렉터리로 설정합니다.
 
    ```sh
-   mkdir az30305a1
-   cd ~/az30305a1/
+   mkdir az30314a1
+   cd ~/az30314a1/
    ```
 
-1. Cloud Shell 창에서 다음을 실행하여 샘플 앱 리포지토리를 **az30305a1** 디렉터리로 복제합니다.
+1. Cloud Shell 창에서 다음을 실행하여 샘플 앱 리포지토리를 **az30314a1** 디렉터리로 복제합니다.
 
    ```sh
    REPO=https://github.com/Azure-Samples/html-docs-hello-world.git
@@ -82,8 +82,8 @@ Adatum 아키텍처 팀은 다음 두 배포 패턴을 테스트하기 위해 �
 1. Cloud Shell 창에서 다음 명령을 실행하여 배포 사용자를 구성합니다.
 
    ```sh
-   USERNAME=az30305user$RANDOM
-   PASSWORD=az30305pass$RANDOM
+   USERNAME=az30314user$RANDOM
+   PASSWORD=az30314pass$RANDOM
    az webapp deployment user set --user-name $USERNAME --password $PASSWORD 
    echo $USERNAME
    echo $PASSWORD
@@ -96,21 +96,21 @@ Adatum 아키텍처 팀은 다음 두 배포 패턴을 테스트하기 위해 �
 
    ```sh
    LOCATION='<location>'
-   RGNAME='az30305a-labRG'
+   RGNAME='az30314a-labRG'
    az group create --location $LOCATION --resource-group $RGNAME
    ```
 
 1. Cloud Shell 창에서 다음을 실행하여 새 App Service 계획을 만듭니다.
 
    ```sh
-   SPNAME=az30305asp$LOCATION$RANDOM
+   SPNAME=az30314asp$LOCATION$RANDOM
    az appservice plan create --name $SPNAME --resource-group $RGNAME --location $LOCATION --sku S1
    ```
 
 1. Cloud Shell 창에서 다음을 실행하여 새 Git 사용 App Service 웹앱을 만듭니다.
 
    ```sh
-   WEBAPPNAME=az30305$RANDOM$RANDOM
+   WEBAPPNAME=az30314$RANDOM$RANDOM
    az webapp create --name $WEBAPPNAME --resource-group $RGNAME --plan $SPNAME --deployment-local-git
    ```
 
@@ -178,10 +178,10 @@ Adatum 아키텍처 팀은 다음 두 배포 패턴을 테스트하기 위해 �
 
 1. Azure Portal에서 검색 텍스트 상자의 오른쪽에 있는 도구 모음 아이콘을 직접 선택하여 **Cloud Shell** 창을 엽니다.
 
-1. Cloud Shell 창에서 다음을 실행하여 현재 설정된 **az30305a1/html-docs-hello-world**를 현재 디렉터리로 설정합니다.
+1. Cloud Shell 창에서 다음을 실행하여 현재 설정된 **az30314a1/html-docs-hello-world**를 현재 디렉터리로 설정합니다.
 
    ```sh
-   cd ~/az30305a1/html-docs-hello-world
+   cd ~/az30314a1/html-docs-hello-world
    ```
 
 1. Cloud Shell 창에서 다음을 실행하여 기본 제공 편집기를 시작합니다:
@@ -206,8 +206,8 @@ Adatum 아키텍처 팀은 다음 두 배포 패턴을 테스트하기 위해 �
 1. Cloud Shell 창에서 다음 명령을 실행하여 필수 글로벌 git 구성 설정이 지정되었는지 확인합니다.
 
    ```sh
-   git config --global user.email "user@az30305.com"
-   git config --global user.name "user az30305"
+   git config --global user.email "user@az30314.com"
+   git config --global user.name "user az30314"
    ```
 
 1. Cloud Shell 창에서 다음 명령을 실행하여 마스터 브랜치에 로컬 적용한 변경을 커밋합니다.
@@ -220,8 +220,8 @@ Adatum 아키텍처 팀은 다음 두 배포 패턴을 테스트하기 위해 �
 1. Cloud Shell 창에서 다음을 실행하여 App Service 웹앱의 새로 만든 스테이징 슬롯에 게시된 URL을 검색합니다.
 
    ```sh
-   RGNAME='az30305a-labRG'
-   WEBAPPNAME=$(az webapp list --resource-group $RGNAME --query "[?starts_with(name,'az30305')]".name --output tsv)
+   RGNAME='az30314a-labRG'
+   WEBAPPNAME=$(az webapp list --resource-group $RGNAME --query "[?starts_with(name,'az30314')]".name --output tsv)
    SLOTNAME='staging'
    URLSTAGING=$(az webapp deployment list-publishing-credentials --name $WEBAPPNAME --slot $SLOTNAME --resource-group $RGNAME --query scmUri --output tsv)
    ```
@@ -273,8 +273,8 @@ Adatum 아키텍처 팀은 다음 두 배포 패턴을 테스트하기 위해 �
 1. Cloud Shell 창에서 다음을 실행하여 대상 웹앱 및 관련 배포 그룹의 이름을 나타내는 변수를 설정했는지 확인합니다.
 
    ```sh
-   RGNAME='az30305a-labRG'
-   WEBAPPNAME=$(az webapp list --resource-group $RGNAME --query "[?starts_with(name,'az30305')]".name --output tsv)
+   RGNAME='az30314a-labRG'
+   WEBAPPNAME=$(az webapp list --resource-group $RGNAME --query "[?starts_with(name,'az30314')]".name --output tsv)
    ```
 
 1. Cloud Shell 창에서 다음을 여러 번 실행하여 두 슬롯 간의 트래픽 분포를 식별합니다.
@@ -290,7 +290,7 @@ Adatum 아키텍처 팀은 다음 두 배포 패턴을 테스트하기 위해 �
 1. Cloud Shell 창에서 다음을 실행하여 이 연습에서 만든 리소스 그룹을 나열합니다.
 
    ```sh
-   az group list --query "[?starts_with(name,'az30305')]".name --output tsv
+   az group list --query "[?starts_with(name,'az30314')]".name --output tsv
    ```
 
     > **참고**: 이 랩에서 만든 리소스 그룹만 출력에 포함되어 있는지 확인합니다. 이 작업에서는 이러한 그룹을 삭제할 것입니다.
@@ -298,13 +298,13 @@ Adatum 아키텍처 팀은 다음 두 배포 패턴을 테스트하기 위해 �
 1. Cloud Shell 창에서 다음을 실행하여 이 랩에서 만든 리소스 그룹을 삭제합니다.
 
    ```sh
-   az group list --query "[?starts_with(name,'az30305')]".name --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
+   az group list --query "[?starts_with(name,'az30314')]".name --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
    ```
 
-1. Cloud Shell 창에서 다음을 실행하여 **az30305a1** 디렉터리를 삭제합니다.
+1. Cloud Shell 창에서 다음을 실행하여 **az30314a1** 디렉터리를 삭제합니다.
 
    ```sh
-   rm -r -f ~/az30305a1
+   rm -r -f ~/az30314a1
    ```
    
 1. Cloud Shell 창을 닫습니다.

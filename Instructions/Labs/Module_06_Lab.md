@@ -1,7 +1,7 @@
----
+﻿---
 lab:
-    title: '5: Azure Storage 파일 및 Blob 서비스 구현 및 구성'
-    module: '모듈 5: 스토리지 계정 구현'
+    title: '6: Azure Storage 파일 및 Blob 서비스 구현 및 구성'
+    module: '모듈 6: 스토리지 계정 구현'
 ---
 
 # 랩: Azure Storage 파일과 Blob 서비스 구현 및 구성
@@ -48,11 +48,11 @@ Windows 서버 관리자 자격 증명
 
 ## Lab Files
 
--  \\\\AZ303\\AllFiles\\Labs\\02\\azuredeploy30302suba.json
+-  \\\\AZ303\\AllFiles\\Labs\\06\\azuredeploy30306suba.json
 
--  \\\\AZ303\\AllFiles\\Labs\\02\\azuredeploy30302rga.json
+-  \\\\AZ303\\AllFiles\\Labs\\06\\azuredeploy30306rga.json
 
--  \\\\AZ303\\AllFiles\\Labs\\02\\azuredeploy30302rga.parameters.json
+-  \\\\AZ303\\AllFiles\\Labs\\06\\azuredeploy30306rga.parameters.json
 
 
 ### 연습 0: 랩 환경 준비
@@ -72,7 +72,7 @@ Windows 서버 관리자 자격 증명
 
     >**참고**: **Cloud Shell**을 처음 시작하고 **탑재된 스토리지가 없음** 메시지를 받으면, 이 랩에서 사용하는 구독을 선택하고 **스토리지 만들기**를 선택합니다. 
 
-1. Cloud Shell 창의 도구 모음에서 **파일 업로드/다운로드** 아이콘을 선택한 다음, 드롭다운 메뉴에서 **업로드**를 선택하여 **\\\\AZ303\\AllFiles\Labs\\02\\azuredeploy30302suba.json** 파일을 Cloud Shell 홈 디렉터리에 업로드합니다.
+1. Cloud Shell 창의 도구 모음에서 **파일 업로드/다운로드** 아이콘을 선택한 다음, 드롭다운 메뉴에서 **업로드**를 선택하여 **\\\\AZ303\\AllFiles\Labs\\06\\azuredeploy30306suba.json** 파일을 Cloud Shell 홈 디렉터리에 업로드합니다.
 
 1. Cloud Shell 창에서 다음을 실행하여 리소스 그룹을 만듭니다(`<Azure region>` 자리 표시자를 구독에 Azure VM을 배포할 수 있고 랩 컴퓨터 위치에 가장 가까운 Azure 지역의 이름으로 대체).
 
@@ -83,26 +83,26 @@ Windows 서버 관리자 자격 증명
    ```powershell
    New-AzSubscriptionDeployment `
      -Location $location `
-     -Name az30302subaDeployment `
-     -TemplateFile $HOME/azuredeploy30302suba.json `
+     -Name az30306subaDeployment `
+     -TemplateFile $HOME/azuredeploy30306suba.json `
      -rgLocation $location `
-     -rgName 'az30302a-labRG'
+     -rgName 'az30306a-labRG'
    ```
 
       > **참고**: Azure VM을 프로비전할 수 있는 Azure 지역을 확인하려면 [**https://azure.microsoft.com/ko-kr/regions/offers/**](https://azure.microsoft.com/ko-kr/regions/offers/)을 참조하세요.
 
-1. Cloud Shell 창에서 Azure Resource Manager 템플릿 **\\\\AZ303\\AllFiles\Labs\\02\\azuredeploy30302rga.json**을 업로드합니다.
+1. Cloud Shell 창에서 Azure Resource Manager 템플릿 **\\\\AZ303\\AllFiles\Labs\\06\\azuredeploy30306rga.json**을 업로드합니다.
 
-1. Cloud Shell 창에서 Azure Resource Manager 매개 변수 파일 **\\\\AZ303\\AllFilesLabs\\02\\azuredeploy30302rga.parameters.json**을 업로드합니다.
+1. Cloud Shell 창에서 Azure Resource Manager 매개 변수 파일 **\\\\AZ303\\AllFilesLabs\\06\\azuredeploy30306rga.parameters.json**을 업로드합니다.
 
 1. Cloud Shell 창에서 다음을 실행하여 이 랩에서 사용할 Windows 서버 2019를 실행하는 Azure VM을 배포합니다.
 
    ```powershell
    New-AzResourceGroupDeployment `
-     -Name az30302rgaDeployment `
-     -ResourceGroupName 'az30302a-labRG' `
-     -TemplateFile $HOME/azuredeploy30302rga.json `
-     -TemplateParameterFile $HOME/azuredeploy30302rga.parameters.json `
+     -Name az30306rgaDeployment `
+     -ResourceGroupName 'az30306a-labRG' `
+     -TemplateFile $HOME/azuredeploy30306rga.json `
+     -TemplateParameterFile $HOME/azuredeploy30306rga.parameters.json `
      -AsJob
    ```
 
@@ -137,7 +137,7 @@ Windows 서버 관리자 자격 증명
     | 설정 | 값 | 
     | --- | --- |
     | 구독 | 이 랩에서 사용 중인 Azure 구독의 이름 |
-    | 리소스 그룹 | 새 리소스 그룹 **az30302a-labRG**의 이름 |
+    | 리소스 그룹 | 새 리소스 그룹 **az30306a-labRG**의 이름 |
     | 저장소 계정 이름 | 문자와 숫자로 구성된 3~24자 사이의 전역적으로 고유한 이름 |
     | 위치 | Azure Storage 계정을 만들 수 있는 Azure 지역의 이름  |
     | 성능 | **표준** |
@@ -157,9 +157,9 @@ Windows 서버 관리자 자격 증명
 
    > **참고**: 계속하기 전에 이 랩의 시작 부분에서 시작한 Azure VM의 배포가 완료되었는지 확인합니다. 
 
-1. Azure Portal에서 **가상 머신**을 검색 및 선택하고 **가상 머신** 블레이드의 가상 머신 목록에서 **az30302a-vm0**을 선택합니다.
+1. Azure Portal에서 **가상 머신**을 검색 및 선택하고 **가상 머신** 블레이드의 가상 머신 목록에서 **az30306a-vm0**을 선택합니다.
 
-1. **az30302a-vm0** 블레이드에서 **연결**을 선택하고 드롭다운 메뉴에서 **RDP**를 선택한 다음 **RDP 파일 다운로드**를 선택합니다.
+1. **az30306a-vm0** 블레이드에서 **연결**을 선택하고 드롭다운 메뉴에서 **RDP**를 선택한 다음 **RDP 파일 다운로드**를 선택합니다.
 
 1. 메시지가 표시되면 다음 자격 증명으로 로그인합니다.
 
@@ -168,16 +168,16 @@ Windows 서버 관리자 자격 증명
     | 사용자 이름 | **Student** |
     | 암호 | **Pa55w.rd1234** |
 
-1. **az30302a-vm0**에 대한 원격 데스크톱 내 서버 관리자 창에서 **로컬 서버**를 선택하고 **IE 강화된 보안 구성** 레이블 옆에 있는 **켜기** 링크를 선택한 다음, **IE 강화된 보안 구성** 대화 상자에서 둘 다 **끄기** 옵션을 선택합니다.
+1. **az30306a-vm0**에 대한 원격 데스크톱 내 서버 관리자 창에서 **로컬 서버**를 선택하고 **IE 강화된 보안 구성** 레이블 옆에 있는 **켜기** 링크를 선택한 다음, **IE 강화된 보안 구성** 대화 상자에서 둘 다 **끄기** 옵션을 선택합니다.
 
-1. **az30302a-vm0**에 대한 원격 데스크톱 세션에서 Internet Explorer를 시작하고 [Azure Storage Explorer](https://azure.microsoft.com/ko-kr/features/storage-explorer/)의 다운로드 페이지로 이동합니다.
+1. **az30306a-vm0**에 대한 원격 데스크톱 세션에서 Internet Explorer를 시작하고 [Azure Storage Explorer](https://azure.microsoft.com/ko-kr/features/storage-explorer/)의 다운로드 페이지로 이동합니다.
 
-1. **az30302a-vm0**에 대한 원격 데스크톱 세션에서 Azure Storage Explorer를 다운로드하고 기본 설정을 사용하여 설치합니다. 
+1. **az30306a-vm0**에 대한 원격 데스크톱 세션에서 Azure Storage Explorer를 다운로드하고 기본 설정을 사용하여 설치합니다. 
 
 
 #### 작업 3: 계정 수준 공유 액세스 서명 생성
 
-1. **az30302a-vm0**에 대한 원격 데스크톱 세션에서 Internet Explorer를 시작하고, [Azure Portal](https://portal.azure.com)로 이동한 후, 이 랩에서 사용하는 구독의 소유자 역할이 부여된 사용자 계정의 자격 증명을 제공하여 로그인합니다.
+1. **az30306a-vm0**에 대한 원격 데스크톱 세션에서 Internet Explorer를 시작하고, [Azure Portal](https://portal.azure.com)로 이동한 후, 이 랩에서 사용하는 구독의 소유자 역할이 부여된 사용자 계정의 자격 증명을 제공하여 로그인합니다.
 
 1. 새로 만든 스토리지 계정의 블레이드로 이동한 후 **액세스 키**를 선택하고 대상 블레이드의 설정을 검토합니다.
 
@@ -205,19 +205,19 @@ Windows 서버 관리자 자격 증명
 
 #### 작업 4: Azure Storage Explorer를 사용하여 Blob 컨테이너 만들기
 
-1. **az30302a-vm0**에 대한 원격 데스크톱 세션에서 Azure Storage Explorer를 시작합니다. 
+1. **az30306a-vm0**에 대한 원격 데스크톱 세션에서 Azure Storage Explorer를 시작합니다. 
 
 1. Azure Storage Explorer 창의 **Azure Storage에 연결** 창에서**SAS(공유 액세스 서명) URI 사용**을 선택하고 **다음**을 선택합니다.
 
-1. **SAS URI에 첨부** 창의 **표시 이름** 텍스트 상자에 **az30302a-blob**을 입력하고 **URI** 텍스트 상자에 클립보드로 복사한 값을 붙여넣은 후, **다음**을 선택합니다. 
+1. **SAS URI에 첨부** 창의 **표시 이름** 텍스트 상자에 **az30306a-blob**을 입력하고 **URI** 텍스트 상자에 클립보드로 복사한 값을 붙여넣은 후, **다음**을 선택합니다. 
 
     >**참고**: 이렇게 하면 **Blob 엔드포인트** 텍스트 상자의 값을 자동으로 채웁니다.
 
 1. **연결 요약** 창에서 **연결**을 선택합니다. 
 
-1. Azure Storage Explorer 창의 **EXPLORER** 창에서 **az30302a-blobs** 항목으로 이동하여 확장하면 **Blob 컨테이너** 엔드포인트에만 액세스할 수 있습니다. 
+1. Azure Storage Explorer 창의 **EXPLORER** 창에서 **az30306a-blobs** 항목으로 이동하여 확장하면 **Blob 컨테이너** 엔드포인트에만 액세스할 수 있습니다. 
 
-1. 오른쪽에서 **az30302a-blobs** 항목을 선택하고 오른쪽 클릭 메뉴에서 **Blob 컨테이너 만들기**를 선택한 다음, 빈 텍스트 상자를 사용하여 컨테이너 이름을 **container1**로 설정합니다.
+1. 오른쪽에서 **az30306a-blobs** 항목을 선택하고 오른쪽 클릭 메뉴에서 **Blob 컨테이너 만들기**를 선택한 다음, 빈 텍스트 상자를 사용하여 컨테이너 이름을 **container1**로 설정합니다.
 
 1. **container1**을 선택한 다음, **container1** 창에서 **업로드**를 선택하여 드롭다운 목록에서 **파일 업로드**를 선택합니다.
 
@@ -232,7 +232,7 @@ Windows 서버 관리자 자격 증명
 
 #### 작업 5: AzCopy를 사용하여 Blob 컨테이너에 파일을 업로드
 
-1. **az30302a-vm0**에 대한 원격 데스크톱 세션 내 브라우저 창의 **공유 액세스 서명** 블레이드에서 다음 설정을 지정합니다(다른 설정은 기본값으로 둡니다).
+1. **az30306a-vm0**에 대한 원격 데스크톱 세션 내 브라우저 창의 **공유 액세스 서명** 블레이드에서 다음 설정을 지정합니다(다른 설정은 기본값으로 둡니다).
 
     | 설정 | 값 | 
     | --- | --- |
@@ -256,45 +256,45 @@ Windows 서버 관리자 자격 증명
 1. Cloud Shell 창에서 다음을 실행하여 파일을 만들고 텍스트 줄을 추가합니다.
 
    ```powershell
-   New-Item -Path './az30302ablob.html'
+   New-Item -Path './az30306ablob.html'
 
-   Set-Content './az30302ablob.html' '<h3>Hello from az30302ablob via SAS</h3>'
+   Set-Content './az30306ablob.html' '<h3>Hello from az30306ablob via SAS</h3>'
    ```
 
 1. Cloud Shell 창에서 이 연습에서 전에 만든 Azure Storage 계정의 container1에 새로 만든 파일을 Blob으로 업로드합니다(`<sas_token>` 자리 표시자를 이 작업에서 전에 클립보드에 복사한 공유 액세스 서명 값으로 대체).
 
    ```powershell
-   $storageAccountName = (Get-AzStorageAccount -ResourceGroupName 'az30302a-labRG')[0].StorageAccountName
+   $storageAccountName = (Get-AzStorageAccount -ResourceGroupName 'az30306a-labRG')[0].StorageAccountName
 
-   azcopy cp './az30302ablob.html' "https://$storageAccountName.blob.core.windows.net/container1/az30302ablob.html<sas_token>"
+   azcopy cp './az30306ablob.html' "https://$storageAccountName.blob.core.windows.net/container1/az30306ablob.html<sas_token>"
    ```
 
 1. AzCopy에서 생성된 출력을 검토하고 작업이 성공적으로 완료되었는지 확인합니다.
 
 1. Cloud Shell 창을 닫습니다.
 
-1. **az30302a-vm0**에서 원격 데스크톱 세션 내의 브라우저 창에서 스토리지 계정 블레이드의 **Blob 서비스** 섹션에서 **컨테이너**를 선택합니다.
+1. **az30306a-vm0**에서 원격 데스크톱 세션 내의 브라우저 창에서 스토리지 계정 블레이드의 **Blob 서비스** 섹션에서 **컨테이너**를 선택합니다.
 
 1. 컨테이너 목록에서 **container1** 을 선택합니다.
 
-1. **container1** 블레이드에서 **az30302ablob.html**이 Blob 목록에 나타나는지 확인합니다.
+1. **container1** 블레이드에서 **az30306ablob.html**이 Blob 목록에 나타나는지 확인합니다.
 
 
 #### 작업 6: Blob 수준 공유 액세스 서명을 사용하여 Blob에 액세스
 
-1. **az30302a-vm0**에서 원격 데스크톱 세션 내 브라우저 창의 **container1** 블레이드에서 **액세스 수준 변경**을 선택하여 **비공개(익명 액세스 안 됨)** 로 설정됐는지 확인하고 **취소**를 선택합니다.
+1. **az30306a-vm0**에서 원격 데스크톱 세션 내 브라우저 창의 **container1** 블레이드에서 **액세스 수준 변경**을 선택하여 **비공개(익명 액세스 안 됨)** 로 설정됐는지 확인하고 **취소**를 선택합니다.
 
     >**참고**: 익명 액세스를 허용하려면 공용 액세스 수준을 **Blob(Blob에 대해서만 익명 읽기 액세스)** 또는 **컨테이너(컨테이너 및 Blob에 대한 익명 읽기 액세스)** 로 설정할 수 있습니다.
 
-1. **container1** 블레이드에서 **az30302ablob.html**를 선택합니다.
+1. **container1** 블레이드에서 **az30306ablob.html**를 선택합니다.
 
-1. **az30302ablob.html** 블레이드에서 **SAS 생성**을 선택하여 수정하지 않고 사용 가능한 옵션을 검토한 다음, **SAS 토큰 및 URL 생성**을 선택합니다.
+1. **az30306ablob.html** 블레이드에서 **SAS 생성**을 선택하여 수정하지 않고 사용 가능한 옵션을 검토한 다음, **SAS 토큰 및 URL 생성**을 선택합니다.
 
 1. **Blob SAS URL** 값을 클립보드에 복사합니다.
 
 1. 브라우저 창에서 새 탭을 열고 이전 단계에서 클립보드에 복사한 URL로 이동합니다.
 
-1. **Hello from az30302ablob via SAS** 메시지가 브라우저 창에 나타나는지 확인합니다.
+1. **Hello from az30306ablob via SAS** 메시지가 브라우저 창에 나타나는지 확인합니다.
 
 
 ### 연습 2: Azure Active Directory를 사용하여 Azure Storage Blob Service 권한 부여를 구성
@@ -310,7 +310,7 @@ Windows 서버 관리자 자격 증명
 
 #### 작업 1: Azure AD 사용자 만들기.
 
-1. **az30302a-vm0**에 대한 원격 데스크톱 세션 내 브라우저 창에서 **Cloud Shell** 창 내의 **PowerShell** 세션을 엽니다.
+1. **az30306a-vm0**에 대한 원격 데스크톱 세션 내 브라우저 창에서 **Cloud Shell** 창 내의 **PowerShell** 세션을 엽니다.
 
 1. Cloud Shell 창에서 다음을 실행하여 새 Azure AD 테넌트에 대해 명시적으로 인증합니다.
 
@@ -330,13 +330,13 @@ Windows 서버 관리자 자격 증명
    $passwordProfile = New-Object -TypeName Microsoft.Open.AzureAD.Model.PasswordProfile
    $passwordProfile.Password = 'Pa55w.rd1234'
    $passwordProfile.ForceChangePasswordNextLogin = $false
-   New-AzureADUser -AccountEnabled $true -DisplayName 'az30302auser1' -PasswordProfile $passwordProfile -MailNickName 'az30302auser1' -UserPrincipalName "az30302auser1@$domainName"
+   New-AzureADUser -AccountEnabled $true -DisplayName 'az30306auser1' -PasswordProfile $passwordProfile -MailNickName 'az30306auser1' -UserPrincipalName "az30306auser1@$domainName"
    ```
 
 1. Cloud Shell 창에서 다음 명령을 실행하여 새로 만든 Azure AD 사용자의 사용자 계정 이름을 확인합니다.
 
    ```powershell
-   (Get-AzureADUser -Filter "MailNickName eq 'az30302auser1'").UserPrincipalName
+   (Get-AzureADUser -Filter "MailNickName eq 'az30306auser1'").UserPrincipalName
    ```
 
 1. UPN(사용자 원 이름)을 참고합니다. 이 연습의 뒷부분에서 필요할 것입니다. 
@@ -346,7 +346,7 @@ Windows 서버 관리자 자격 증명
 
 #### 작업 2: Azure Storage Blob Service에 대한 Azure Active Directory 권한 부여를 사용하도록 설정
 
-1. **az30302a-vm0**에 할당된 원격 데스크톱 세션 내의 Azure Portal을 표시하는 브라우저 창에서 **container1** 블레이드로 다시 이동합니다.
+1. **az30306a-vm0**에 할당된 원격 데스크톱 세션 내의 Azure Portal을 표시하는 브라우저 창에서 **container1** 블레이드로 다시 이동합니다.
 
 1. **container1** 블레이드에서 **Azure AD 사용자 계정으로 전환**을 선택합니다.
 
@@ -365,11 +365,11 @@ Windows 서버 관리자 자격 증명
 
 #### 작업 3: AzCopy를 사용하여 Blob 컨테이너에 파일을 업로드
 
-1. **az30302a-vm0**에 할당된 원격 데스크톱 세션 내의 브라우저 창에서 [AzCopy 시작](https://docs.microsoft.com/ko-kr/azure/storage/common/storage-use-azcopy-v10)으로 이동합니다.
+1. **az30306a-vm0**에 할당된 원격 데스크톱 세션 내의 브라우저 창에서 [AzCopy 시작](https://docs.microsoft.com/ko-kr/azure/storage/common/storage-use-azcopy-v10)으로 이동합니다.
 
 1. azcopy.zip 파일을 다운로드하여 azcopy.exe를 **C:\\Labfiles** 폴더에 추출합니다(필요한 경우 폴더를 만듭니다).
 
-1. **az30302a-vm0**에 할당된 원격 데스트톱 세션 내에서 Windows PowerShell을 시작합니다. 
+1. **az30306a-vm0**에 할당된 원격 데스트톱 세션 내에서 Windows PowerShell을 시작합니다. 
 
 1. Windows PowerShell 프롬프트에서 다음을 실행하여 **azcopy.zip** 아카이브를 다운로드하여 콘텐츠를 추출한 다음, **azcopy.exe**가 포함된 위치로 전환합니다.
 
@@ -392,20 +392,20 @@ Windows 서버 관리자 자격 증명
 
     >**참고**: 이 목적으로 Microsoft 계정을 사용할 수 없으므로 Azure AD 사용자 계정을 먼저 만들어야 합니다.
 
-1. 이전 단계에서 실행한 명령으로 생성된 메시지에 제공된 지침에 따라 **az30302auser1**사용자 계정으로 인증합니다. 자격 증명에 대한 메시지가 표시되면 이 연습의 첫 번째 작업에서 기록한 계정과 암호 **Pa55w.rd1234**의 사용자 계정 이름을 제공합니다.
+1. 이전 단계에서 실행한 명령으로 생성된 메시지에 제공된 지침에 따라 **az30306auser1**사용자 계정으로 인증합니다. 자격 증명에 대한 메시지가 표시되면 이 연습의 첫 번째 작업에서 기록한 계정과 암호 **Pa55w.rd1234**의 사용자 계정 이름을 제공합니다.
 
 1. 성공적으로 인증되면 Windows PowerShell 프롬프트에서 다음을 실행하여 **container1**에 업로드할 파일을 만듭니다.
 
    ```powershell
-   New-Item -Path './az30302bblob.html'
+   New-Item -Path './az30306bblob.html'
 
-   Set-Content './az30302bblob.html' '<h3>Hello from az30302bblob via Azure AD</h3>'
+   Set-Content './az30306bblob.html' '<h3>Hello from az30306bblob via Azure AD</h3>'
    ```
 
 1. Windows PowerShell 프롬프트에서 다음을 실행하여 새로 만든 파일을 이전 연습에서 만든 Azure Storage 계정의 **container1**에 Blob으로 업로드합니다(이전 작업에서 확인한 스토리지 계정의 값으로 `<storage_account_name>` 자리 표시자를 대체합니다).
 
    ```powershell
-   .\azcopy cp './az30302bblob.html' 'https://<storage_account_name>.blob.core.windows.net/container1/az30302bblob.html'
+   .\azcopy cp './az30306bblob.html' 'https://<storage_account_name>.blob.core.windows.net/container1/az30306bblob.html'
    ```
 
 1. AzCopy에서 생성된 출력을 검토하고 작업이 성공적으로 완료되었는지 확인합니다.
@@ -413,19 +413,19 @@ Windows 서버 관리자 자격 증명
 1. Windows PowerShell 프롬프트에서 다음을 실행하여 AzCopy 유틸리티에서 제공하는 보안 컨텍스트 외부에서 업로드된 Blob에 액세스할 수 없는지 확인합니다(이전 작업에서 확인한 스토리지 계정의 값으로 `<storage_account_name>` 자리 표시자를 대체합니다).
 
    ```powershell
-   Invoke-WebRequest -Uri 'https://<storage_account_name>.blob.core.windows.net/container1/az30302bblob.html'
+   Invoke-WebRequest -Uri 'https://<storage_account_name>.blob.core.windows.net/container1/az30306bblob.html'
    ```
 
-1. **az30302a-vm0**에 대한 원격 데스크톱 세션 내 브라우저 창에서 **container1**로 다시 이동합니다.
+1. **az30306a-vm0**에 대한 원격 데스크톱 세션 내 브라우저 창에서 **container1**로 다시 이동합니다.
 
-1. **container1** 블레이드에서 **az30302bblob.html**이 Blob 목록에 나타나는지 확인합니다.
+1. **container1** 블레이드에서 **az30306bblob.html**이 Blob 목록에 나타나는지 확인합니다.
 
 1. **container1** 블레이드에서 **액세스 수준 변경**을 선택하고 공용 액세스 수준을 **Blob(Blob에 대해서만 익명 읽기 액세스)** 으로 설정하고 **확인**을 선택합니다. 
 
 1. Windows PowerShell 프롬프트로 다시 전환하고 다음을 다시 실행하여 업로드된 Blob에 익명으로 액세스할 수 있는지 확인합니다(이전 작업에서 확인한 스토리지 계정의 값으로 `<storage_account_name>` 자리 표시자를 대체합니다).
 
    ```powershell
-   Invoke-WebRequest -Uri 'https://<storage_account_name>.blob.core.windows.net/container1/az30302bblob.html'
+   Invoke-WebRequest -Uri 'https://<storage_account_name>.blob.core.windows.net/container1/az30306bblob.html'
    ```
 
 
@@ -442,13 +442,13 @@ Windows 서버 관리자 자격 증명
 
 #### 작업 1: Azure Storage 파일 공유 만들기
 
-1. **az30302a-vm0**에 대한 원격 데스크톱 세션 내 Azure Portal을 표시하는 브라우저 창에서 이 랩의 첫 번째 연습에서 만든 스토리지 계정의 블레이드로 다시 이동하여 **파일 서비스** 섹션에서 **파일 공유**를 선택합니다.
+1. **az30306a-vm0**에 대한 원격 데스크톱 세션 내 Azure Portal을 표시하는 브라우저 창에서 이 랩의 첫 번째 연습에서 만든 스토리지 계정의 블레이드로 다시 이동하여 **파일 서비스** 섹션에서 **파일 공유**를 선택합니다.
 
 1. **+ 파일 공유**를 선택하고 다음 설정에 따라 파일 공유를 만듭니다.
 
     | 설정 | 값 |
     | --- | --- |
-    | 이름 | **az30302a-share** |
+    | 이름 | **az30306a-share** |
     | 할당량 | **1024** |
 
 
@@ -460,7 +460,7 @@ Windows 서버 관리자 자격 증명
 
     >**참고**: Azure Storage 파일 공유 매핑은 대상 공유에 액세스하기 위해 스토리지 계정 이름과 두 개의 스토리지 계정 키 중 하나를 각각 사용자 이름과 암호에 상응하는 것으로 사용합니다.
 
-1. **az30302a-vm0**에 대한 원격 데스크톱 세션 내에서 복사한 스크립트를 PowerShell 프롬프트에 붙여넣고 실행합니다.
+1. **az30306a-vm0**에 대한 원격 데스크톱 세션 내에서 복사한 스크립트를 PowerShell 프롬프트에 붙여넣고 실행합니다.
 
 1. 스크립트가 성공적으로 완료되었는지 확인합니다. 
 
@@ -468,19 +468,19 @@ Windows 서버 관리자 자격 증명
 
 1. 파일 탐색기에서 **Folder1**이라는 폴더를 만들고 폴더 내부에 **File1.txt**라는 텍스트 파일을 만듭니다.
 
-1. Azure Portal을 표시하는 브라우저 창으로 다시 전환하여 **az30302a-share** 블레이드에서 **새로 고침**을 선택하고 **Folder1**이 폴더 목록에 표시되는지 확인합니다. 
+1. Azure Portal을 표시하는 브라우저 창으로 다시 전환하여 **az30306a-share** 블레이드에서 **새로 고침**을 선택하고 **Folder1**이 폴더 목록에 표시되는지 확인합니다. 
 
 1. **Folder1**을 선택하고 **File1.txt**가 파일 목록에 표시되는지 확인합니다.
 
 
 #### 작업 3: 랩에 배포된 Azure 리소스 제거
 
-1. **az30302a-vm0**에 대한 원격 데스크톱 세션 내 Azure Portal을 표시하는 브라우저 창의 Cloud Shell 창 내에서 PowerShell 세션을 시작합니다.
+1. **az30306a-vm0**에 대한 원격 데스크톱 세션 내 Azure Portal을 표시하는 브라우저 창의 Cloud Shell 창 내에서 PowerShell 세션을 시작합니다.
 
 1. Cloud Shell 창에서 다음을 실행하여 이 연습에서 만든 리소스 그룹을 나열합니다.
 
    ```powershell
-   Get-AzResourceGroup -Name 'az30302*'
+   Get-AzResourceGroup -Name 'az30306*'
    ```
 
     > **참고**: 이 랩에서 만든 리소스 그룹만 출력에 포함되어 있는지 확인합니다. 이 작업에서는 이러한 그룹을 삭제할 것입니다.
@@ -488,11 +488,11 @@ Windows 서버 관리자 자격 증명
 1. Cloud Shell 창에서 다음을 실행하여 이 랩에서 만든 리소스 그룹을 삭제합니다.
 
    ```powershell
-   Get-AzResourceGroup -Name 'az30302*' | Remove-AzResourceGroup -Force -AsJob
+   Get-AzResourceGroup -Name 'az30306*' | Remove-AzResourceGroup -Force -AsJob
    ```
 
 1. Cloud Shell 창을 닫습니다.
 
 1. Azure Portal에서 Azure 구독과 연결된 Azure Active Directory 테넌트의 **사용자** 블레이드로 이동합니다.
 
-1. 사용자 계정 목록에서 **az30302auser1** 사용자 계정을 나타내는 항목을 선택하고 도구 모음에서 줄임표 아이콘을 선택합니다. **사용자 삭제**를 선택하고 확인하라는 메시지가 표시되면 **예**를 선택합니다.  
+1. 사용자 계정 목록에서 **az30306auser1** 사용자 계정을 나타내는 항목을 선택하고 도구 모음에서 줄임표 아이콘을 선택합니다. **사용자 삭제**를 선택하고 확인하라는 메시지가 표시되면 **예**를 선택합니다.  
