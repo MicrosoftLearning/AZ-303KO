@@ -1,4 +1,4 @@
-﻿---
+---
 lab:
     title: '6: Azure Storage 파일 서비스 및 Blob Service 구현 및 구성'
     module: '모듈 6: 스토리지 계정 구현'
