@@ -1,4 +1,4 @@
----
+﻿---
 lab:
     title: '14B: 메시지 기반 통합 아키텍처 구성'
     module: '모듈 14: 애플리케이션 인프라 구현'
@@ -10,11 +10,11 @@ lab:
 
 ## 랩 시나리오
 
-Adatum은 온-프레미스 파일 서버에 정기적으로 업로드되는 파일을 처리하는 웹 애플리케이션을 여러 개 보유하고 있습니다. 파일 크기는 다양하지만 최대 크기는 100MB입니다. Adatum은 애플리케이션을 Azure App Service 또는 Azure Functions 기반 앱으로 마이그레이션하고 Azure Storage를 사용하여 업로드된 파일을 호스팅하는 것을 고려하고 있습니다. 다음 두 가지 시나리오를 테스트할 계획입니다.
+Adatum은 온-프레미스 파일 서버에 정기적으로 업로드되는 파일을 처리하는 웹 애플리케이션을 여러 개 보유하고 있습니다. 파일 크기는 다양하지만 최대 크기는 100MB입니다. Adatum은 애플리케이션을 Azure App Service 또는 Azure Functions 기반 앱으로 마이그레이션하고 Azure Storage를 사용하여 업로드된 파일을 호스팅하는 것을 고려하고 있습니다. 다음 두 가지 시나리오를 테스트할 예정입니다.
 
 - Azure Functions를 사용하여 Azure Storage 컨테이너에 업로드된 새 Blob을 자동으로 처리합니다.
 
-  - Event Grid를 사용하여 Azure Storage 컨테이너에 업로드된 새 Blob을 참조하는 Azure Storage 큐 메시지를 생성합니다.
+  - Event Grid를 사용하여 Azure Storage 컨테이너에 업로드된 새 Blob을 참조할 Azure Storage 큐 메시지를 생성합니다.
 
 이러한 시나리오는 큰 메시지를 보내고, 받고, 조작할 때 메시지 기반 아키텍처에서 공통적으로 발생하는 어려움을 해결하기 위한 것입니다. 메시지 큐에 대규모 메시지를 직접 보내는 것은 좋지 않습니다. 메시지 플랫폼은 일반적으로 많은 양의 소규모 메시지를 처리하도록 미세 조정되어 있으므로 사용할 리소스가 더 많이 필요하고, 더 많은 대역폭을 사용하고, 처리 속도에 악영향을 미치기 때문입니다. 또한 대부분의 경우 메시지 플랫폼은 처리할 수 있는 최대 메시지 크기를 제한합니다.
 
@@ -22,7 +22,7 @@ Adatum은 온-프레미스 파일 서버에 정기적으로 업로드되는 파�
 
 Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만, 일반적으로 이벤트를 사용하여 클레임 검사 생성을 자동화하고 클라이언트가 사용할 메시지 버스에 푸시하거나 페이로드 처리를 직접 트리거합니다. 이러한 구현에 포함되는 일반적인 구성 요소 중 하나는 Event Grid이며, 구성 가능한 기간(최대 24시간) 내에 이벤트 배달을 담당하는 이벤트 라우팅 서비스입니다. 그 후 이벤트는 삭제되거나 배달 못한 편지로 처리됩니다. 이벤트 콘텐츠를 보관하거나 이벤트 스트림을 다시 재생해야 하는 경우, 이벤트 허브에 대한 Event Grid 구독을 설정하거나 Azure Storage에서 메시지를 장기간 보존할 수 있으며 메세지 보관이 지원되는 큐를 설정합니다.
 
-이 랩에서는 Azure Storage Blob 서비스를 사용하여 처리할 파일을 저장합니다. 클라이언트는 지정된 Azure Blob 컨테이너에 공유할 파일을 놓기만 하면 됩니다. 첫 번째 연습에서는 서버리스 특성을 활용하여 Azure 함수에서 파일을 직접 이용하겠습니다. 또한 Application Insights를 활용하여 계측을 제공하고, 모니터링을 지원하고, 파일 처리를 분석할 수 있습니다. 두 번째 연습에서는 Event Grid를 사용하여 클레임 검사 메시지를 자동으로 생성하고 Azure Storage 큐로 보냅니다. 이렇게 하면 클라이언트 애플리케이션이 큐를 폴링하고 메시지를 가져온 다음 저장된 참조 데이터를 사용하여 Azure Blob Storage에서 직접 페이로드를 다운로드할 수 있습니다.
+이 랩에서는 Azure Storage Blob service를 사용하여 처리할 파일을 저장합니다. 클라이언트는 지정된 Azure Blob 컨테이너에 공유할 파일을 놓기만 하면 됩니다. 첫 번째 연습에서는 서버리스 특성을 활용하여 Azure 함수에서 파일을 직접 이용하겠습니다. 또한 Application Insights를 활용하여 계측을 제공하고, 모니터링을 지원하고, 파일 처리를 분석할 수 있습니다. 두 번째 연습에서는 Event Grid를 사용하여 클레임 검사 메시지를 자동으로 생성하고 Azure Storage 큐로 보냅니다. 이렇게 하면 클라이언트 애플리케이션이 큐를 폴링하고 메시지를 가져온 다음 저장된 참조 데이터를 사용하여 Azure Blob Storage에서 직접 페이로드를 다운로드할 수 있습니다.
 
 첫 번째 연습의 Azure 함수가 Blob Storage 트리거에 의존한다는 점에 주목하세요. 다음 요구 사항을 처리할 때는 Blob Storage 트리거 대신 Event Grid 트리거를 선택해야 합니다.
 
@@ -34,7 +34,7 @@ Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만,
 
   - Blob 삭제 이벤트 처리: Blob 삭제 이벤트는 Blob Storage 트리거에서 지원되지 않습니다.
 
-## 목적
+## 목표
   
 이 랩을 완료하면 다음과 같은 작업을 수행할 수 있습니다.
 
@@ -44,7 +44,7 @@ Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만,
 
 ## 랩 환경
   
-예상 시간: 60분
+예상 소요 시간: 60분
 
 ## Lab Files
 
@@ -62,7 +62,7 @@ Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만,
 
 #### 작업 1: Azure 함수 앱 스토리지 Blob 트리거 구성
 
-1. 랩 컴퓨터에서 웹 브라우저를 시작하여 [Azure Portal](https://portal.azure.com)로 이동하고, 이 랩에서 사용할 구독에서 소유자 역할을 가진 사용자 계정의 자격 증명을 제공하여 로그인합니다.
+1. 랩 컴퓨터에서 웹 브라우저를 시작하여 [Azure Portal](https://portal.azure.com)로 이동하고, 이 랩에서 사용할 구독에서 Owner 역할을 가진 사용자 계정의 자격 증명을 제공하여 로그인합니다.
 
 1. Azure Portal에서 검색 텍스트 상자의 오른쪽에 있는 도구 모음 아이콘을 직접 선택하여 **Cloud Shell** 창을 엽니다.
 
@@ -76,7 +76,7 @@ Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만,
    export PREFIX=$(echo `openssl rand -base64 5 | cut -c1-7 | tr '[:upper:]' '[:lower:]' | tr -cd '[[:alnum:]]._-'`)
    ```
 
-1. Cloud Shell 창에서 다음을 실행하여 이 랩에서 리소스를 프로비전할 Azure 지역을 지정합니다 (`<Azure region>` 자리 표시자는 구독에서 사용할 수 있으며 랩 컴퓨터 위치에 가장 가까운 Azure 지역의 이름으로 바꿉니다).
+1. Cloud Shell 창에서 다음을 실행하여 이 랩에서 리소스를 프로비전할 Azure 지역을 지정합니다(`<Azure region>` 자리 표시자는 구독에서 사용할 수 있으며 랩 컴퓨터 위치에 가장 가까운 Azure 지역의 이름으로 바꿉니다).
 
    ```sh
    export LOCATION='<Azure region>'
@@ -127,7 +127,7 @@ Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만,
 1. Cloud Shell 창에서 다음을 실행하여 Azure Storage Blob 만들기에 해당하는 이벤트를 처리하는 Azure 함수를 만듭니다.
 
    ```sh
-   export FUNCTION_NAME="az30309f${PREFIX}"
+   export FUNCTION_NAME="az30314f${PREFIX}"
 
    az functionapp create --name "${FUNCTION_NAME}" --resource-group "${RESOURCE_GROUP_NAME}" --app-insights "$APPLICATION_INSIGHTS_NAME" --app-insights-key "$APPINSIGHTS_KEY" --storage-account "${STORAGE_ACCOUNT_NAME}" --consumption-plan-location "${LOCATION}" --runtime "dotnet" --functions-version 2
    ```
@@ -144,9 +144,9 @@ Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만,
 
 1. Azure 함수 앱 블레이드에서 **함수**를 선택하고 **+ 추가**를 클릭합니다.
 
-1. **새 함수** 블레이드에서 **Azure Blob Storage 트리거**템플릿을 선택합니다.
+1. **함수 추가** 블레이드에서 **Azure Blob Storage 트리거**템플릿을 선택합니다.
 
-1. **새 함수** 블레이드에서 다음을 지정하고 **함수 만들기**를 선택하여 Azure 함수 내에서 새 함수를 만듭니다.
+1. **함수 추가** 블레이드에서 다음을 지정하고 **추가**를 선택하여 Azure 함수 내에서 새 함수를 만듭니다.
 
     | 설정 | 값 |
     | --- | --- |
@@ -179,7 +179,7 @@ Azure에서 이 패턴은 다양한 방법과 기술로 구현할 수 있지만,
    export CONTAINER_NAME="workitems"
    ```
 
-1. Cloud Shell 창에서 다음을 실행하여 이 작업의 앞 부분에서 만든 Azure Storage 계정에 테스트 Blob을 업로드합니다.
+1. Cloud Shell 창에서 다음을 실행하여 이 작업의 앞에서 만든 Azure Storage 계정에 테스트 Blob을 업로드합니다.
 
    ```sh
    export STORAGE_ACCESS_KEY="$(az storage account keys list --account-name "${STORAGE_ACCOUNT_NAME}" --resource-group "${RESOURCE_GROUP_NAME}" --query "[0].value" --output tsv)"
