@@ -29,7 +29,7 @@ Adatum 엔터프라이즈 아키텍처 팀은 사용자 지정 역할 기반 액
   
 Windows 서버 관리자 자격 증명
 
--  사용자 이름: **학생**
+-  사용자 이름: **Student**
 
 -  암호: **Pa55w.rd1234**
 
@@ -86,7 +86,7 @@ Windows 서버 관리자 자격 증명
 
 1. Cloud Shell 창에서 Azure Resource Manager 템플릿 **\\\\AZ303\\AllFiles\Labs\\10\\azuredeploy30310rga.json**을 업로드합니다.
 
-1. Cloud Shell 창에서 Azure Resource Manager 매개 변수 파일**\\\\AZ303\\AllFilesLabs\\10\\azuredeploy30310rga.parameters.json**을 업로드합니다.
+1. Cloud Shell 창에서 Azure Resource Manager 매개 변수 파일 **\\\\AZ303\\AllFilesLabs\\10\\azuredeploy30310rga.parameters.json** 을 업로드합니다.
 
 1. Cloud Shell 창에서 다음을 실행하여 이 랩에서 사용할 Windows 서버 2019를 실행하는 Azure VM을 배포합니다.
 
@@ -149,7 +149,7 @@ Windows 서버 관리자 자격 증명
 
 1. Azure Portal에서 **az30310a-labRG** 블레이드로 이동합니다.
 
-1. **az30310a-labRG** 블레이드에서 **IAM(액세스 제어)**을 선택합니다.
+1. **az30310a-labRG** 블레이드에서 **IAM(액세스 제어)** 을 선택합니다.
 
 1. **az30310a-labRG - IAM(액세스 제어)** 블레이드에서 **역할**을 클릭합니다.
 
@@ -232,7 +232,7 @@ Windows 서버 관리자 자격 증명
  
 1. Azure Portal에서 **az30310a-labRG** 블레이드로 이동합니다.
 
-1. **az30310a-labRG** 블레이드에서 **IAM(액세스 제어)**을 선택합니다.
+1. **az30310a-labRG** 블레이드에서 **IAM(액세스 제어)** 을 선택합니다.
 
 1. **az30310a-labRG - 액세스 제어(IAM)** 블레이드에서 **+ 추가**를 선택하고 **역할 할당 추가** 옵션을 선택합니다.
 
